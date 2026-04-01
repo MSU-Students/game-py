@@ -1,13 +1,18 @@
 from player import MainPlayer, EnemyPlayer
-# How to make a Class Iterable
-# 1: declare index
-# 2: override __iter__, returns self
-# 3: override __next__, return present based from __index prop
-# 4: increment self.__index
-# 5: stop iteration, by raise StopIteration
+
+class InvalidFirstNameError(Exception):
+    message = 'No First name provided'
+    def __init__(self, msg:str = ''):
+        super().__init__(msg)
+        self.message = msg if msg != '' else self.message
+
 class Game:
     __index = 0 # step 1
-    def __init__(self, firstName, lastName):
+    def __init__(self, firstName:str, lastName):
+        if firstName == '':
+            raise InvalidFirstNameError()
+        elif firstName.isdigit():
+            raise InvalidFirstNameError('Number Name')
         self.mainPlayer = MainPlayer(firstName, lastName)
         self.enemies = [
             EnemyPlayer('Black', 'Bird'),
