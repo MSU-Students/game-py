@@ -1,5 +1,6 @@
 from player import MainPlayer, EnemyPlayer
-
+from screen import Screen
+from utils import sleep
 class InvalidFirstNameError(Exception):
     message = 'No First name provided'
     def __init__(self, msg:str = ''):
@@ -7,6 +8,7 @@ class InvalidFirstNameError(Exception):
         self.message = msg if msg != '' else self.message
 
 class Game:
+    screen = Screen()
     __index = 0 # step 1
     def __init__(self, firstName:str, lastName):
         if firstName == '':
@@ -32,3 +34,15 @@ class Game:
             return self.enemies[self.__index - 2]
         else:
             raise StopIteration #step 4
+        
+    def play(self):
+        
+        self.screen.drawCharAt(5, 5)
+        self.screen.printScreen()
+        sleep(1)
+        self.screen.drawCharAt(5, 6)
+        self.screen.printScreen()
+        sleep(1)
+        self.screen.drawCharAt(6, 7)
+        self.screen.printScreen()
+        sleep(1)
