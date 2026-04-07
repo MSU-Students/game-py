@@ -2,6 +2,14 @@ from abc import ABC, abstractmethod
 from utils import clear_console, goto_xy
  
 class BasePlayer(ABC):
+    __pixels = [
+        [' ',' ','^',' ', ' '],
+        [' ','/',' ','\\',' '],
+        ['/','|',' ','|','\\']
+    ]
+
+    def getFrame(self):
+        return (self.__position[0], self.__position[1], self.__pixels)
     # Constructor
     def __init__(self, fName = '', lName = ''):
         self.first_name = fName
@@ -40,7 +48,7 @@ class EnemyPlayer(BasePlayer):
         return f'[Enemy] {super().fullName(separator)}'
     
 
-class MainPlayer(BasePlayer):
+class AirPlane(BasePlayer):
     kill = 0
     def __init__(self, fName='', lName=''):
         super().__init__(fName, lName)

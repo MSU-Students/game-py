@@ -8,10 +8,20 @@ class Screen:
     def __init__(self, width = 0, height = 0):
         self.__width = width if width > 0 else self.__width
         self.__height = height if height > 0 else self.__height
+        self.initFrame()
+    def initFrame(self):
         self.clearScreen()
         self.drawFrame()
-        
-    def drawCharAt(self, x = 1, y = 1, c = 'X'):
+    def drawPixelsAt(self, pixels:list, x = 1, y = 1):
+        cy = 0
+        for row in pixels:
+            cx = 0
+            for col in row:
+                self.__pixels[y + cy][x + cx] = col
+                cx = cx + 1
+            cy = cy + 1
+
+    def drawStringAt(self, x = 1, y = 1, c = 'X'):
         self.__pixels[x][y] = c
     def clearScreen(self):
         self.__pixels = [[' ' for _ in range(self.__width)] for _ in range(self.__height)]

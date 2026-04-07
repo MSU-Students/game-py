@@ -1,4 +1,4 @@
-from player import MainPlayer, EnemyPlayer
+from player import AirPlane, EnemyPlayer
 from screen import Screen
 from utils import sleep
 class InvalidFirstNameError(Exception):
@@ -15,7 +15,7 @@ class Game:
             raise InvalidFirstNameError()
         elif firstName.isdigit():
             raise InvalidFirstNameError('Number Name')
-        self.mainPlayer = MainPlayer(firstName, lastName)
+        self.mainPlayer = AirPlane(firstName, lastName)
         self.enemies = [
             EnemyPlayer('Black', 'Bird'),
             EnemyPlayer('Enel', 'God')
@@ -36,13 +36,24 @@ class Game:
             raise StopIteration #step 4
         
     def play(self):
+        PIXELS = 2
+        X_COORDINATE = 0
+        Y_COORDINATE = 1
+        self.screen.drawStringAt(3, 4, 'Welcome to GAME PY')
+        self.mainPlayer.setPosition((10, 10))
+        frame = self.mainPlayer.getFrame()
+        self.screen.drawPixelsAt(frame[PIXELS], frame[X_COORDINATE], frame[Y_COORDINATE] )
+        self.screen.printScreen()
+        sleep(1)
+        self.screen.initFrame();
+        self.mainPlayer.setPosition((10, 13))
+        frame = self.mainPlayer.getFrame()
+        self.screen.drawPixelsAt(frame[PIXELS], frame[X_COORDINATE], frame[Y_COORDINATE] )
+        self.enemies[0].setPosition((5, 1))
+        eFrame = self.enemies[0].getFrame()
+        self.screen.drawPixelsAt(eFrame[PIXELS], eFrame[X_COORDINATE], eFrame[Y_COORDINATE] )
+        self.screen.printScreen()
         
-        self.screen.drawCharAt(5, 5)
-        self.screen.printScreen()
-        sleep(1)
-        self.screen.drawCharAt(5, 6)
-        self.screen.printScreen()
-        sleep(1)
-        self.screen.drawCharAt(6, 7)
-        self.screen.printScreen()
-        sleep(1)
+        
+
+        
