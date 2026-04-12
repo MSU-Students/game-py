@@ -17,7 +17,10 @@ class Screen:
         for row in pixels:
             cx = 0
             for col in row:
-                self.__pixels[y + cy][x + cx] = col
+                ty = y + cy
+                tx = x + cx
+                if ty < self.__height and tx < self.__width:
+                    self.__pixels[ty][tx] = col
                 cx = cx + 1
             cy = cy + 1
 

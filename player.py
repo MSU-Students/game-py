@@ -30,7 +30,10 @@ class BasePlayer(ABC):
 
     def setPosition(self, position):
         self.__position = (position[0], position[1])
-
+    def movePosition(self, coordinates:tuple): 
+        newX = self.__position[0] + coordinates[0]
+        newY = self.__position[1] + coordinates[1]
+        self.__position = (newX, newY)
     def display(self):
         goto_xy(self.__position)
         print(self._avatar, end='')
