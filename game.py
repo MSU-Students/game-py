@@ -46,24 +46,21 @@ class Game:
                 self.mainPlayer.movePosition((1, 0))
             elif key == keyboard.Key.left:
                 self.mainPlayer.movePosition((-1, 0))
+            elif key == keyboard.Key.space:
+                self.mainPlayer.fire()
             elif key == keyboard.Key.esc:
                 self.listener.stop()
         except:
             print('Something went wrong')
     def play(self):
         self.listener.start()
-        PIXELS = 2
-        X_COORDINATE = 0
-        Y_COORDINATE = 1
         self.screen.drawStringAt(3, 4, 'Welcome to GAME PY')
         self.mainPlayer.setPosition((10, 10))
-        frame = self.mainPlayer.getFrame()
-        self.screen.drawPixelsAt(frame[PIXELS], frame[X_COORDINATE], frame[Y_COORDINATE] )
+        self.mainPlayer.drawElement(self.screen)
         self.screen.printScreen()
         sleep(1)
         self.enemies[0].setPosition((5, 1))
-        eFrame = self.enemies[0].getFrame()
-        self.screen.drawPixelsAt(eFrame[PIXELS], eFrame[X_COORDINATE], eFrame[Y_COORDINATE] )
+        self.enemies[0].drawElement(self.screen)
         self.screen.printScreen()
 
         # Start Getting Input
@@ -71,15 +68,13 @@ class Game:
         while self.listener.running:            
             self.screen.clearScreen()
             self.screen.drawFrame()
-            frame = self.mainPlayer.getFrame()
-            try:
-                self.screen.drawPixelsAt(frame[PIXELS], frame[X_COORDINATE], frame[Y_COORDINATE] )
-            except:
-                print('Something went wrong')
-                sleep(1)
+            self.mainPlayer.drawElement(self.screen)
             self.screen.printScreen()
-            sleep(0.2)
-        print('Good Bye')
+            sleep(0.1)
+            self.mainPlayer.nextFrame(self.screen)
+        self.screen.drawFrame()
+        self.screen.drawStringAt(10, 4, 'Good Bye, from GAME PY')
+        self.screen.printScreen()
 
 
         

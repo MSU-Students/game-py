@@ -1,7 +1,7 @@
-from utils import clear_console
+from utils import clear_console, goto_xy
 class Screen:
     __width = 80
-    __height = 24
+    __height = 34
     __x = 0
     __y = 0
     __pixels = []
@@ -12,6 +12,8 @@ class Screen:
     def initFrame(self):
         self.clearScreen()
         self.drawFrame()
+    def getDimension(self):
+        return (self.__width, self.__height)
     def drawPixelsAt(self, pixels:list, x = 1, y = 1):
         cy = 0
         for row in pixels:
@@ -25,7 +27,10 @@ class Screen:
             cy = cy + 1
 
     def drawStringAt(self, x = 1, y = 1, c = 'X'):
-        self.__pixels[x][y] = c
+        i = 0
+        for ch in c:
+            self.__pixels[y][x + i] = ch
+            i += 1
     def clearScreen(self):
         self.__pixels = [[' ' for _ in range(self.__width)] for _ in range(self.__height)]
     
@@ -43,7 +48,8 @@ class Screen:
             row[self.__width - 1] = '|'
 
     def printScreen(self):
-        clear_console()
+        # clear_console()
+        goto_xy((0, 0))
         #start 0,0
         for row in self.__pixels:
             for col in row:

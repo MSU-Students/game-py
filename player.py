@@ -1,21 +1,19 @@
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 from utils import clear_console, goto_xy
- 
-class BasePlayer(ABC):
-    __pixels = [
-        [' ',' ','^',' ', ' '],
-        [' ','/',' ','\\',' '],
-        ['/','|',' ','|','\\']
-    ]
-
-    def getFrame(self):
-        return (self.__position[0], self.__position[1], self.__pixels)
+from element import Element
+from amo import Amo
+class BasePlayer(Element):
     # Constructor
     def __init__(self, fName = '', lName = ''):
+        super().__init__([
+            [' ',' ','^',' ', ' '],
+            [' ','/',' ','\\',' '],
+            ['/','|',' ','|','\\']
+        ])
         self.first_name = fName
         self.last_name = lName
-        self.__position = (0, 0)
         self._avatar = '[A]'
+        self.amos = []
 
     def __secret(self): 
         return f'{self.age}{self.first_name[0]}'
@@ -27,15 +25,21 @@ class BasePlayer(ABC):
     @abstractmethod
     def fullName(self, separator = ' '):
         return f'{self.first_name}{separator}{self.last_name}'
+   
+    def fire(self):
+        self.amos.append(Amo((self._position[0] + 2, self._position[1] - 1)))
+    
+    def drawElement(self, screen):
+        super().drawElement(screen)
+        for amo in self.amos:
+            amo.drawElement(screen)
 
-    def setPosition(self, position):
-        self.__position = (position[0], position[1])
-    def movePosition(self, coordinates:tuple): 
-        newX = self.__position[0] + coordinates[0]
-        newY = self.__position[1] + coordinates[1]
-        self.__position = (newX, newY)
+    def nextFrame(self, screen):
+        for amo in self.amos:
+            amo.nextFrame(screen)
+
     def display(self):
-        goto_xy(self.__position)
+        goto_xy(self._position)
         print(self._avatar, end='')
 
 class EnemyPlayer(BasePlayer):
