@@ -2,13 +2,18 @@ from pynput import keyboard
 from player import AirPlane, EnemyPlayer
 from screen import Screen
 from utils import sleep
+from game_navigation import GameNavigation
+from game_story import GameStory
+from game_animation import GameAnimation
+from game_levels import GameLevels
+from game_profile import GameProfile
 class InvalidFirstNameError(Exception):
     message = 'No First name provided'
     def __init__(self, msg:str = ''):
         super().__init__(msg)
         self.message = msg if msg != '' else self.message
 
-class Game:
+class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
     screen = Screen()
     __index = 0 # step 1
     def __init__(self, firstName:str, lastName):
@@ -54,27 +59,23 @@ class Game:
             print('Something went wrong')
     def play(self):
         self.listener.start()
-        self.screen.drawStringAt(3, 4, 'Welcome to GAME PY')
-        self.mainPlayer.setPosition((10, 10))
-        self.mainPlayer.drawElement(self.screen)
-        self.screen.printScreen()
-        sleep(1)
+        
+        self.welcomeScreen()
+        userName = self.profileInput()
+        
+        # self.mainPlayer.drawElement(self.screen)
+        self.loadMainPlayer(userName)
+
         self.enemies[0].setPosition((5, 1))
-        self.enemies[0].drawElement(self.screen)
-        self.screen.printScreen()
+        
+        # self.enemies[0].drawElement(self.screen)
+        # self.screen.printScreen()
 
         # Start Getting Input
         
-        while self.listener.running:            
-            self.screen.clearScreen()
-            self.screen.drawFrame()
-            self.mainPlayer.drawElement(self.screen)
-            self.screen.printScreen()
-            sleep(0.1)
-            self.mainPlayer.nextFrame(self.screen)
-        self.screen.drawFrame()
-        self.screen.drawStringAt(10, 4, 'Good Bye, from GAME PY')
-        self.screen.printScreen()
+        self.startGame()
+
+        self.exitGame()
 
 
         

@@ -12,3 +12,12 @@ Object
 - Shield
 - Enemy (Plane)
 
+
+* Story Telling
+** Main
+- Welcome Screen
+- Profile Input
+- Play
+- Choose Level (Easy, Moderate, Hard)
+- Main Player goes to bottom center
+- Exit

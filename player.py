@@ -14,6 +14,7 @@ class BasePlayer(Element):
         self.last_name = lName
         self._avatar = '[A]'
         self.amos = []
+        self.life = 1
 
     def __secret(self): 
         return f'{self.age}{self.first_name[0]}'
@@ -42,6 +43,9 @@ class BasePlayer(Element):
         goto_xy(self._position)
         print(self._avatar, end='')
 
+    def setRemainingLife(self, life: int):
+        self.life = life
+
 class EnemyPlayer(BasePlayer):
     life = 100
     def __init__(self, fName='', lName=''):
@@ -55,8 +59,14 @@ class EnemyPlayer(BasePlayer):
         return f'[Enemy] {super().fullName(separator)}'
     
 
+#AirPlaneStates
+STEADY = 1
+GOING_LEFT = 2
+GOING_RIGHT = 3
+GOING_STEADY = 4
 class AirPlane(BasePlayer):
     kill = 0
+    state = STEADY
     def __init__(self, fName='', lName=''):
         super().__init__(fName, lName)
         self._avatar = '[8]'
@@ -67,5 +77,27 @@ class AirPlane(BasePlayer):
         return 'Main'
     def fullName(self, separator=' '):
         return f'[Main] {super().fullName(separator)}'
+
+    def getFrame(self):
+        if (self.state == STEADY):
+            return super().getFrame()
+        elif (self.state == GOING_LEFT):
+            return (
+                self._position[0], 
+                self._position[1],
+                [ '  ^  ',
+                  ' /\\ ',
+                  ' ||'
+                ] 
+            )
+        elif (self.state == GOING_RIGHT):
+            return (
+                self._position[0], 
+                self._position[1],
+                [ '  ^  ',
+                  '/\\  ',
+                  '||  '
+                ] 
+            )
 
 
