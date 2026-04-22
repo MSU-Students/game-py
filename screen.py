@@ -1,10 +1,11 @@
 from utils import clear_console, goto_xy
+import numpy as np
 class Screen:
     __width = 80
     __height = 34
     __x = 0
     __y = 0
-    __pixels = []
+    __pixels = np.full((5, 5), ' ')
     def __init__(self, width = 0, height = 0):
         self.__width = width if width > 0 else self.__width
         self.__height = height if height > 0 else self.__height
@@ -32,8 +33,8 @@ class Screen:
             self.__pixels[y][x + i] = ch
             i += 1
     def clearScreen(self):
-        self.__pixels = [[' ' for _ in range(self.__width)] for _ in range(self.__height)]
-    
+        self.__pixels = np.full((self.__height, self.__width), ' ')
+        
     def drawFrame(self):
         firsRow = self.__pixels[0]
         for i in range(0, self.__width):
