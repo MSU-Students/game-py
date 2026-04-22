@@ -44,13 +44,13 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
     def onPress(self, key):
         try:
             if key == keyboard.Key.up:
-                self.mainPlayer.movePosition((0, -1))
+                self.mainPlayer.goUp()
             elif key == keyboard.Key.down:
                 self.mainPlayer.movePosition((0, 1))
             elif key == keyboard.Key.right:
-                self.mainPlayer.movePosition((1, 0))
+                self.mainPlayer.glideRight()
             elif key == keyboard.Key.left:
-                self.mainPlayer.movePosition((-1, 0))
+                self.mainPlayer.glideLeft()
             elif key == keyboard.Key.space:
                 self.mainPlayer.fire()
             elif key == keyboard.Key.esc:

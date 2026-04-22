@@ -1,6 +1,7 @@
 from abc import abstractmethod
 from utils import clear_console, goto_xy
 from element import Element
+from animation_frame import AnimationFrame
 from amo import Amo
 class BasePlayer(Element):
     # Constructor
@@ -60,16 +61,18 @@ class EnemyPlayer(BasePlayer):
     
 
 #AirPlaneStates
-STEADY = 1
-GOING_LEFT = 2
-GOING_RIGHT = 3
-GOING_STEADY = 4
-class AirPlane(BasePlayer):
+STEADY = -1
+GOING_LEFT = 0
+GOING_RIGHT = 1
+GOING_UP = 2
+
+class AirPlane(BasePlayer, AnimationFrame):
     kill = 0
     state = STEADY
     def __init__(self, fName='', lName=''):
         super().__init__(fName, lName)
         self._avatar = '[8]'
+        self.loadAnimation('./animations/plane.txt')
     def incrementKill(self, enemy: EnemyPlayer):
         self.kill = self.kill + 1
         enemy.decrementLife()
@@ -77,27 +80,32 @@ class AirPlane(BasePlayer):
         return 'Main'
     def fullName(self, separator=' '):
         return f'[Main] {super().fullName(separator)}'
-
+    def glideRight(self):
+        self.state = GOING_RIGHT
+        self.setState(GOING_RIGHT)
+        
+    def glideLeft(self):
+        self.state = GOING_LEFT
+        self.setState(GOING_LEFT)
+    def goUp(self):
+        self.state = GOING_UP
+        self.setState(GOING_UP)
     def getFrame(self):
         if (self.state == STEADY):
             return super().getFrame()
-        elif (self.state == GOING_LEFT):
-            return (
-                self._position[0], 
-                self._position[1],
-                [ '  ^  ',
-                  ' /\\ ',
-                  ' ||'
-                ] 
-            )
-        elif (self.state == GOING_RIGHT):
-            return (
-                self._position[0], 
-                self._position[1],
-                [ '  ^  ',
-                  '/\\  ',
-                  '||  '
-                ] 
-            )
+        else:
+            frame = self.getAnimationFrame()
+            if (frame == False):
+                if (self.state == GOING_RIGHT):
+                    self.movePosition((2, 0))
+                elif (self.state == GOING_LEFT):
+                    self.movePosition((-2, 0))
+                elif (self.state == GOING_UP):
+                    self.movePosition((0, -1))
+                self.state = STEADY
+                return super().getFrame()
+            else:
+                return (self._position[0], self._position[1], frame)
+            
 
 
