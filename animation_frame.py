@@ -25,7 +25,7 @@ class AnimationFrame:
             if (line.startswith('===')):
                 anime.append([[]])
                 self.__stateCount += 1
-            elif (line == '' Or line.startswith('---'):
+            elif (line == '' or line.startswith('---')):
                 stateSize = anime.__len__()
                 stateFrame = anime[stateSize -1]
                 stateFrame.append([])
