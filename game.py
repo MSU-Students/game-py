@@ -62,9 +62,11 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
         
         self.welcomeScreen()
         userName = self.profileInput()
+
         
         # self.mainPlayer.drawElement(self.screen)
         self.loadMainPlayer(userName)
+
 
         self.enemies[0].setPosition((5, 1))
         
