@@ -63,13 +63,13 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
         self.welcomeScreen()
         userName = self.profileInput()
         
-        # self.mainPlayer.drawElement(self.screen)
+        #self.mainPlayer.drawElement(self.screen)
         self.loadMainPlayer(userName)
-
-        self.enemies[0].setPosition((5, 1))
+        self.loadEnemies()
+        #self.enemies[0].setPosition((30, 10))
         
-        # self.enemies[0].drawElement(self.screen)
-        # self.screen.printScreen()
+        #self.enemies[0].drawElement(self.screen)
+        #self.screen.printScreen()
 
         # Start Getting Input
         

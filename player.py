@@ -47,10 +47,15 @@ class BasePlayer(Element):
     def setRemainingLife(self, life: int):
         self.life = life
 
-class EnemyPlayer(BasePlayer):
+class EnemyPlayer(BasePlayer, Element):
     life = 100
     def __init__(self, fName='', lName=''):
         super().__init__(fName, lName)
+        Element.__init__(self, [
+            ['\\','|',' ','|', '/'],
+            [' ','\\',' ','/',' '],
+            [' ',' ','v',' ','']
+        ])
         self._avatar = '[*]'
     def decrementLife(self):
         self.life = self.life - 1
