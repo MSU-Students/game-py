@@ -54,7 +54,7 @@ class EnemyPlayer(BasePlayer, Element):
         Element.__init__(self, [
             ['\\','|',' ','|', '/'],
             [' ','\\',' ','/',' '],
-            [' ',' ','v',' ','']
+            [' ',' ','v',' ',' ']
         ])
         self._avatar = '[*]'
     def decrementLife(self):

@@ -24,7 +24,8 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
         self.mainPlayer = AirPlane(firstName, lastName)
         self.enemies = [
             EnemyPlayer('Black', 'Bird'),
-            EnemyPlayer('Enel', 'God')
+            EnemyPlayer('Enel', 'God'),
+            EnemyPlayer('Goku', 'YellowHair')
         ]
         self.listener = keyboard.Listener(on_press=self.onPress)
     # called every start of iteration

@@ -33,11 +33,13 @@ class GameNavigation:
             self.screen.clearScreen()
             self.screen.drawFrame()
             self.mainPlayer.drawElement(self.screen)
-            self.enemies[0].drawElement(self.screen)
+            for enemy in self.enemies:
+                enemy.drawElement(self.screen)
             self.screen.printScreen()
             sleep(0.1)
             self.mainPlayer.nextFrame(self.screen)
-            self.enemies[0].nextFrame(self.screen)
+            for enemy in self.enemies:
+                enemy.nextFrame(self.screen)
 
     def exitGame(self):
         self.screen.drawFrame()

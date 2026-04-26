@@ -14,4 +14,10 @@ class GameStory:
         self.mainPlayer.setPosition((int(width / 2), height - 8))
     def loadEnemies(self):
         (width, height) = self.screen.getDimension()
-        self.enemies[0].setPosition((int(width / 2), 2))
+        for enemy in range(len(self.enemies)):
+            if enemy==0:
+                self.enemies[enemy].setPosition((4, 2))
+            elif enemy==1:
+                self.enemies[enemy].setPosition((int((width/2)-3), 2))
+            elif enemy==2:
+                self.enemies[enemy].setPosition((int(width - 15), 2))
