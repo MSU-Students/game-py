@@ -44,3 +44,6 @@ class GameNavigation:
         self.screen.drawFrame()
         self.screen.drawStringAt(10, 4, 'Good Bye, from GAME PY')
         self.screen.printScreen()
+        
+
+        
