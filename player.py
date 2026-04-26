@@ -96,15 +96,15 @@ class AirPlane(BasePlayer, AnimationFrame):
         else:
             frame = self.getAnimationFrame()
             if (frame == False):
-                if (self.state == GOING_RIGHT):
-                    self.movePosition((2, 0))
-                elif (self.state == GOING_LEFT):
-                    self.movePosition((-2, 0))
-                elif (self.state == GOING_UP):
-                    self.movePosition((0, -1))
                 self.state = STEADY
                 return super().getFrame()
             else:
+                if (self.state == GOING_RIGHT):
+                    self.movePosition((1, 0))
+                elif (self.state == GOING_LEFT):
+                    self.movePosition((-1, 0))
+                elif (self.state == GOING_UP):
+                    self.movePosition((0, -1))
                 return (self._position[0], self._position[1], frame)
             
 
