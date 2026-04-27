@@ -113,5 +113,3 @@ class AirPlane(BasePlayer, AnimationFrame):
                     self.movePosition((0, 1))
                 return (self._position[0], self._position[1], frame)
             
-
-
