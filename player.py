@@ -65,6 +65,7 @@ STEADY = -1
 GOING_LEFT = 0
 GOING_RIGHT = 1
 GOING_UP = 2
+GOING_DOWN = 3
 
 class AirPlane(BasePlayer, AnimationFrame):
     kill = 0
@@ -90,6 +91,9 @@ class AirPlane(BasePlayer, AnimationFrame):
     def goUp(self):
         self.state = GOING_UP
         self.setState(GOING_UP)
+    def goDown(self):
+        self.state = GOING_DOWN
+        self.setState(GOING_DOWN)
     def getFrame(self):
         if (self.state == STEADY):
             return super().getFrame()
@@ -105,7 +109,7 @@ class AirPlane(BasePlayer, AnimationFrame):
                     self.movePosition((-1, 0))
                 elif (self.state == GOING_UP):
                     self.movePosition((0, -1))
+                elif (self.state == GOING_DOWN):
+                    self.movePosition((0, 1))
                 return (self._position[0], self._position[1], frame)
             
-
-

@@ -46,7 +46,7 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
             if key == keyboard.Key.up:
                 self.mainPlayer.goUp()
             elif key == keyboard.Key.down:
-                self.mainPlayer.movePosition((0, 1))
+                self.mainPlayer.goDown()
             elif key == keyboard.Key.right:
                 self.mainPlayer.glideRight()
             elif key == keyboard.Key.left:
