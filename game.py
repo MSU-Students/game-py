@@ -58,6 +58,7 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
                 self.listener.stop()
         except:
             print('Something went wrong')
+
     def play(self):
         self.listener.start()
         

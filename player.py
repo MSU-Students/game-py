@@ -63,6 +63,15 @@ class EnemyPlayer(BasePlayer, Element):
         return 'Enemy'
     def fullName(self, separator=' '):
         return f'[Enemy] {super().fullName(separator)}'
+    def moveEnemy(self, mainPlayerPosX: int):
+        self.targetDirectionX = mainPlayerPosX - self._position[0]
+        if self.targetDirectionX < 0:
+            self.movePosition((-1, 0))
+        elif self.targetDirectionX > 0:
+            self.movePosition((1, 0))
+        else:
+            self.movePosition((0, 0))
+   
     
 
 #AirPlaneStates

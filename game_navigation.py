@@ -40,6 +40,7 @@ class GameNavigation:
             self.mainPlayer.nextFrame(self.screen)
             for enemy in self.enemies:
                 enemy.nextFrame(self.screen)
+            self.enemies[0].moveEnemy(self.mainPlayer._position[0])
 
     def exitGame(self):
         self.screen.drawFrame()
