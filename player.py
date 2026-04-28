@@ -23,7 +23,8 @@ class BasePlayer(Element):
     @abstractmethod
     def getType():
         pass
-
+    def initLife(self, life: int):
+        self.life = life
     @abstractmethod
     def fullName(self, separator = ' '):
         return f'{self.first_name}{separator}{self.last_name}'
@@ -74,6 +75,7 @@ class AirPlane(BasePlayer, AnimationFrame):
         super().__init__(fName, lName)
         self._avatar = '[8]'
         self.loadAnimation('./animations/plane.txt')
+        
     def incrementKill(self, enemy: EnemyPlayer):
         self.kill = self.kill + 1
         enemy.decrementLife()
