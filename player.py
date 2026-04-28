@@ -38,7 +38,7 @@ class BasePlayer(Element):
 
     def nextFrame(self, screen):
         for amo in self.amos:
-            amo.nextFrame(screen)
+            amo.nextFrame(screen, 0, -1)
 
     def display(self):
         goto_xy(self._position)
@@ -50,9 +50,10 @@ class BasePlayer(Element):
 class EnemyPlayer(BasePlayer, Element):
     enemyTimer = TimeClass
     life = 100
-    targetDirectionX: int # Determines the x-direction of the main player
-    mainPlayerDir: str = "middle"# "left" or "right" or "middle"
+    targetDirectionX: int # Determines the x-direction of the main player from enemy
+    mainPlayerDir: str = "middle"# "left" or "right" or "middle" direction of the main player from enemy
     moveSpeed: int
+    allowEnemyFire: bool = True # Allows enemy firing, this is to ensure that it doesn't fire endlessly
     def __init__(self, fName='', lName=''):
         super().__init__(fName, lName)
         Element.__init__(self, [
@@ -60,6 +61,7 @@ class EnemyPlayer(BasePlayer, Element):
             [' ','\\',' ','/',' '],
             [' ',' ','v',' ',' ']
         ])
+        #Amo.nextFrame
         self._avatar = '[*]'
         self.moveSpeed = 1 # The movement speed of the enemy by default
 
@@ -69,6 +71,11 @@ class EnemyPlayer(BasePlayer, Element):
         return 'Enemy'
     def fullName(self, separator=' '):
         return f'[Enemy] {super().fullName(separator)}'
+    def fire(self):
+        self.amos.append(Amo((self._position[0] + 2, self._position[1] + 1)))
+    def nextFrame(self, screen):
+        for amo in self.amos:
+            amo.nextFrame(screen, 0, 1)
     def moveEnemy(self, mainPlayerPosX: int): # Moves enemy when called
         self.enemyTimer.timeCheck(self.enemyTimer)
         self.enemyTimer.startTimer(self.enemyTimer, 5)
@@ -83,6 +90,13 @@ class EnemyPlayer(BasePlayer, Element):
                 self.mainPlayerDir = "right"
             else: 
                 self.mainPlayerDir = "middle"
+
+            if self.allowEnemyFire == True:
+                self.fire()
+                self.allowEnemyFire = False
+        elif self.enemyTimer.currentTime < self.enemyTimer.targetTime and self.allowEnemyFire == False:
+            self.allowEnemyFire = True
+
 
         #Moves the enemy according to the direction of the main Player
         if self.enemyTimer.currentTime <= self.enemyTimer.targetTime - 2:

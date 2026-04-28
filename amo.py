@@ -4,6 +4,6 @@ class Amo(Element):
         super().__init__([['*']])
         self.setPosition(position)
     
-    def nextFrame(self, screen):
+    def nextFrame(self, screen, moveposX:int = 0, moveposY:int = -1):
         if (self._position[1] > 0):
-            self.movePosition((0, -1))
+            self.movePosition((moveposX, moveposY))
