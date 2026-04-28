@@ -28,19 +28,25 @@ class GameNavigation:
         sleep(3)
         return user
     
+
     def startGame(self):
-        while self.listener.running:            
+        while self.listener.running:     
             self.screen.clearScreen()
             self.screen.drawFrame()
             self.mainPlayer.drawElement(self.screen)
             for enemy in self.enemies:
                 enemy.drawElement(self.screen)
+                enemy.moveEnemy(self.mainPlayer._position[0])
             self.screen.printScreen()
             sleep(0.1)
             self.mainPlayer.nextFrame(self.screen)
             for enemy in self.enemies:
                 enemy.nextFrame(self.screen)
-            self.enemies[0].moveEnemy(self.mainPlayer._position[0])
+
+            
+
+
+
 
     def exitGame(self):
         self.screen.drawFrame()

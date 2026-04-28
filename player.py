@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from utils import clear_console, goto_xy
+from utils import clear_console, goto_xy, TimeClass
 from element import Element
 from animation_frame import AnimationFrame
 from amo import Amo
@@ -48,7 +48,11 @@ class BasePlayer(Element):
         self.life = life
 
 class EnemyPlayer(BasePlayer, Element):
+    enemyTimer = TimeClass
     life = 100
+    targetDirectionX: int # Determines the x-direction of the main player
+    mainPlayerDir: str = "middle"# "left" or "right" or "middle"
+    moveSpeed: int
     def __init__(self, fName='', lName=''):
         super().__init__(fName, lName)
         Element.__init__(self, [
@@ -57,20 +61,37 @@ class EnemyPlayer(BasePlayer, Element):
             [' ',' ','v',' ',' ']
         ])
         self._avatar = '[*]'
+        self.moveSpeed = 1 # The movement speed of the enemy by default
+
     def decrementLife(self):
         self.life = self.life - 1
     def getType():
         return 'Enemy'
     def fullName(self, separator=' '):
         return f'[Enemy] {super().fullName(separator)}'
-    def moveEnemy(self, mainPlayerPosX: int):
-        self.targetDirectionX = mainPlayerPosX - self._position[0]
-        if self.targetDirectionX < 0:
-            self.movePosition((-1, 0))
-        elif self.targetDirectionX > 0:
-            self.movePosition((1, 0))
-        else:
-            self.movePosition((0, 0))
+    def moveEnemy(self, mainPlayerPosX: int): # Moves enemy when called
+        self.enemyTimer.timeCheck(self.enemyTimer)
+        self.enemyTimer.startTimer(self.enemyTimer, 5)
+        self.enemyTimer.timerFinished(self.enemyTimer)
+        self.targetDirectionX = mainPlayerPosX - self._position[0] # Determines the x-direction of the player
+        
+        #Determines the direction of the main Player every once in a while
+        if self.enemyTimer.currentTime >= self.enemyTimer.targetTime - 0.5 and self.enemyTimer.currentTime <= self.enemyTimer.targetTime:
+            if self.targetDirectionX < 0: 
+                self.mainPlayerDir = "left"
+            elif self.targetDirectionX > 0: 
+                self.mainPlayerDir = "right"
+            else: 
+                self.mainPlayerDir = "middle"
+
+        #Moves the enemy according to the direction of the main Player
+        if self.enemyTimer.currentTime <= self.enemyTimer.targetTime - 2:
+            if self.mainPlayerDir == "left": # If main Player is on the left of the enemy, move left
+                self.movePosition((-self.moveSpeed, 0))
+            elif self.mainPlayerDir == "right": # if main Player is on the right of the enemy, move right
+                self.movePosition((self.moveSpeed, 0))
+            elif self.mainPlayerDir == "middle": # if main Player is neither left nor right, remain steady
+                self.movePosition((0, 0))
    
     
 
