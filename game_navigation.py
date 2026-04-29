@@ -6,6 +6,8 @@ class GameNavigation:
     screen: Screen
     mainPlayer: AirPlane
     listener: keyboard.Listener
+    def __init__(self):
+        self.paused = False
     def welcomeScreen(self):
         self.screen.drawStringAt(3, 10, 'Welcome to GAME PY')
         self.screen.printScreen()
@@ -28,15 +30,35 @@ class GameNavigation:
         return user
     
     def startGame(self):
-        while self.listener.running:            
+        self.listener = keyboard.Listener(on_press=self.on_press)
+        self.listener.start()
+
+        while True:        
             self.screen.clearScreen()
             self.screen.drawFrame()
-            self.mainPlayer.drawElement(self.screen)
+
+            if self.paused:
+                self.screen.drawStringAt(10, 5, 'PAUSED - Press P')
+            else:
+                self.mainPlayer.drawElement(self.screen)
+                self.mainPlayer.nextFrame(self.screen)
+
             self.screen.printScreen()
             sleep(0.1)
-            self.mainPlayer.nextFrame(self.screen)
+                
 
     def exitGame(self):
         self.screen.drawFrame()
         self.screen.drawStringAt(10, 4, 'Good Bye, from GAME PY')
         self.screen.printScreen()
+    
+    def on_press(self, key):
+        try:
+            if key.char == 'p':
+                self.paused = not self.paused 
+                print (f"Paused status: {self.paused}")
+
+        except AttributeError:
+
+            pass
+        
