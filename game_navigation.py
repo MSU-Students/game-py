@@ -16,7 +16,7 @@ class GameNavigation:
         self.screen.drawFrame()
 
     def displayLife(self): #This will display the Health of the player while playing
-        self.screen.drawStringAt(50 , 2, f'life: {str(self.mainPlayer.life)}')
+        self.screen.drawStringAt(65 , 2, f'life: {str(self.mainPlayer.life)}')
 
     def profileInput(self):
         self.resetScreen()
