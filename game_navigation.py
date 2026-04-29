@@ -15,6 +15,7 @@ class GameNavigation:
         self.screen.clearScreen()
         self.screen.drawFrame()
 
+
     def profileInput(self):
         self.resetScreen()
         self.screen.drawStringAt(3, 10, 'Enter Your Name:')
@@ -27,6 +28,15 @@ class GameNavigation:
         sleep(3)
         return user
     
+    
+    def loadingScreen(self):
+        self.resetScreen()
+        self.screen.drawStringAt(3, 10, 'Get ready...')
+        self.screen.printScreen()
+        sleep(5)
+ 
+
+
     def startGame(self):
         while self.listener.running:            
             self.screen.clearScreen()
