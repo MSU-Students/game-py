@@ -40,3 +40,12 @@ class GameNavigation:
         self.screen.drawFrame()
         self.screen.drawStringAt(10, 4, 'Good Bye, from GAME PY')
         self.screen.printScreen()
+        self.screen.drawStringAt(60, 2, f"Difficulty: {label}")
+
+    def draw_difficulty_indicator(self, screen, level_difficulty):
+        if level_difficulty < 5:
+            label = "Difficulty: Easy"
+        elif level_difficulty < 10:
+            label = "Difficulty: Moderate"
+        else:
+            label = "Difficulty: Hard"
