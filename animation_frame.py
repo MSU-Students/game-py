@@ -8,7 +8,7 @@ class AnimationFrame:
     def setState(self, state: int):
         self.__stateIndex = state
         self.__frameIndex = 0
-    def getAnimationFrame(self):
+    def getAnimationFrame(self): 
         if (self.__animations.__len__() <= self.__stateIndex ):
             return False
         anime = self.__animations[self.__stateIndex]
