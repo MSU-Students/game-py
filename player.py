@@ -86,7 +86,7 @@ class EnemyPlayer(BasePlayer, Element):
         
         #Determines the direction of the main Player every once in a while
         if self.enemyTimer.currentTime >= self.enemyTimer.targetTime - 0.5 and self.enemyTimer.currentTime <= self.enemyTimer.targetTime:
-            # self.randomCooldown: float = random.uniform(1.5, 5.0)
+            self.randomCooldown: float = random.uniform(1.5, 5.0)
             if self.targetDirectionX < 0: 
                 self.mainPlayerDir = "left"
             elif self.targetDirectionX > 0: 
