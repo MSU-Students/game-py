@@ -49,13 +49,15 @@ class GameNavigation:
             for enemy in self.enemies:
                 enemy.drawElement(self.screen)
                 enemy.moveEnemy(self.mainPlayer._position[0])
+                enemy.nextFrame(self.screen)
+            print(self.enemies[0]._position[1])
+
             self.displayLife()
             self.displayDifficulty(1)
             self.screen.printScreen()
             sleep(0.1)
             self.mainPlayer.nextFrame(self.screen)
-            for enemy in self.enemies:
-                enemy.nextFrame(self.screen)
+
 
             
 
