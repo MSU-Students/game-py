@@ -3,6 +3,7 @@ from utils import clear_console, goto_xy, TimeClass
 from element import Element
 from animation_frame import AnimationFrame
 from amo import Amo
+import random
 class BasePlayer(Element):
     # Constructor
     def __init__(self, fName = '', lName = ''):
@@ -64,6 +65,7 @@ class EnemyPlayer(BasePlayer, Element):
         #Amo.nextFrame
         self._avatar = '[*]'
         self.moveSpeed = 1 # The movement speed of the enemy by default
+        self.randomCooldown: float = random.uniform(1.5, 5.0) # randomizes the cooldown each movement of the enemy
 
     def decrementLife(self):
         self.life = self.life - 1
@@ -78,12 +80,13 @@ class EnemyPlayer(BasePlayer, Element):
             amo.nextFrame(screen, 0, 1)
     def moveEnemy(self, mainPlayerPosX: int): # Moves enemy when called
         self.enemyTimer.timeCheck(self.enemyTimer)
-        self.enemyTimer.startTimer(self.enemyTimer, 5)
+        self.enemyTimer.startTimer(self.enemyTimer, self.randomCooldown)
         self.enemyTimer.timerFinished(self.enemyTimer)
         self.targetDirectionX = mainPlayerPosX - self._position[0] # Determines the x-direction of the player
         
         #Determines the direction of the main Player every once in a while
         if self.enemyTimer.currentTime >= self.enemyTimer.targetTime - 0.5 and self.enemyTimer.currentTime <= self.enemyTimer.targetTime:
+            # self.randomCooldown: float = random.uniform(1.5, 5.0)
             if self.targetDirectionX < 0: 
                 self.mainPlayerDir = "left"
             elif self.targetDirectionX > 0: 
