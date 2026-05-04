@@ -45,4 +45,7 @@ class TimeClass:
             return True
         else:
             return False
+        
+
+
 

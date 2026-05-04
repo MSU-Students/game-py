@@ -52,7 +52,8 @@ class GameNavigation:
                 enemy.drawElement(self.screen)
                 enemy.moveEnemy(self.mainPlayer._position[0])
                 enemy.nextFrame(self.screen)
-
+        
+            print(self.enemies[0].enemyTimer.targetTime, '       ', self.enemies[2].enemyTimer.targetTime)
             self.displayLife()
             self.displayDifficulty(1)
             self.screen.printScreen()

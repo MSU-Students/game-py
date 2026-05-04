@@ -8,7 +8,7 @@ class Waves:
     def __init__(self):
         self.enemy: EnemyPlayer
         self.enemies: list[EnemyPlayer] = []
-        self.distancer: int
+        self.distancer: int # This is the distance between enemies once the game started
         self.count: int
         (self.width, self.height) = self.screen.getDimension()
 
@@ -19,7 +19,7 @@ class Waves:
             self.enemy = EnemyPlayer()
             self.enemies.append(self.enemy)
 
-    
+    # Used to load enemies' position once the main game started
     def loadEnemyPos(self, enemyNumberGetter: int):
         self.instantiateEnemies(enemyNumberGetter)
 

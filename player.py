@@ -49,7 +49,6 @@ class BasePlayer(Element):
         self.life = life
 
 class EnemyPlayer(BasePlayer, Element):
-    enemyTimer = TimeClass
     life = 100
     targetDirectionX: int # Determines the x-direction of the main player from enemy
     mainPlayerDir: str = "middle"# "left" or "right" or "middle" direction of the main player from enemy
@@ -63,9 +62,12 @@ class EnemyPlayer(BasePlayer, Element):
             [' ',' ','v',' ',' ']
         ])
         #Amo.nextFrame
+        self.enemyTimer = TimeClass()
         self._avatar = '[*]'
         self.moveSpeed = 1 # The movement speed of the enemy by default
-        self.randomCooldown: float = random.uniform(1.5, 5.0) # randomizes the cooldown each movement of the enemy
+        self.randomizer = random.Random()
+        self.randomCooldown: float = self.randomizer.uniform(1.5, 5.0) # randomizes the cooldown each movement of the enemy
+
 
     def decrementLife(self):
         self.life = self.life - 1
@@ -79,14 +81,14 @@ class EnemyPlayer(BasePlayer, Element):
         for amo in self.amos:
             amo.nextFrame(screen, 0, 1)
     def moveEnemy(self, mainPlayerPosX: int): # Moves enemy when called
-        self.enemyTimer.timeCheck(self.enemyTimer)
-        self.enemyTimer.startTimer(self.enemyTimer, self.randomCooldown)
-        self.enemyTimer.timerFinished(self.enemyTimer)
+        self.enemyTimer.timeCheck()
+        self.enemyTimer.startTimer(self.randomCooldown)
+        self.enemyTimer.timerFinished()
         self.targetDirectionX = mainPlayerPosX - self._position[0] # Determines the x-direction of the player
         
         #Determines the direction of the main Player every once in a while
         if self.enemyTimer.currentTime >= self.enemyTimer.targetTime - 0.5 and self.enemyTimer.currentTime <= self.enemyTimer.targetTime:
-            self.randomCooldown: float = random.uniform(1.5, 5.0)
+            self.randomCooldown: float = self.randomizer.uniform(1.5, 5.0)
             if self.targetDirectionX < 0: 
                 self.mainPlayerDir = "left"
             elif self.targetDirectionX > 0: 
