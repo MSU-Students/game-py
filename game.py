@@ -1,5 +1,9 @@
 from pynput import keyboard
-from player import AirPlane, EnemyPlayer
+from player import AirPlane
+try:
+    from enemyplayer import EnemyPlayer, Enemy03
+except ModuleNotFoundError:
+    from EnemyPlayer import EnemyPlayer, Enemy03
 from screen import Screen
 from utils import sleep
 from game_navigation import GameNavigation
@@ -22,11 +26,30 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
         elif firstName.isdigit():
             raise InvalidFirstNameError('Number Name')
         self.mainPlayer = AirPlane(firstName, lastName)
-        self.enemies = [
-            EnemyPlayer('Black', 'Bird'),
-            EnemyPlayer('Enel', 'God')
-        ]
+        self.enemies = []
+        # spawn initial enemy
+        try:
+            self.spawn_enemy()
+        except Exception:
+            # fallback: create directly if spawn_enemy not available
+            try:
+                e = Enemy03('Waving', 'Enemy')
+                self.enemies.append(e)
+            except Exception:
+                pass
         self.listener = keyboard.Listener(on_press=self.onPress)
+
+    def spawn_enemy(self):
+        """Create and position a new Enemy03 at the top-center of the screen."""
+        e = Enemy03('Waving', 'Enemy')
+        width, height = self.screen.getDimension()
+        # try to center enemy (assume width of frame ~3); place at row 1
+        e.setPosition((max(1, int(width / 2) - 1), 1))
+        try:
+            e.setState(0)
+        except Exception:
+            pass
+        self.enemies.append(e)
     # called every start of iteration
     def __iter__(self): #step 2
         self.__index = 0
@@ -66,7 +89,10 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
         # self.mainPlayer.drawElement(self.screen)
         self.loadMainPlayer(userName)
 
-        self.enemies[0].setPosition((5, 1))
+        width, height = self.screen.getDimension()
+        # place the descending enemy at top center
+        if len(self.enemies) > 0:
+            self.enemies[0].setPosition((int(width / 2), 1))
         
         # self.enemies[0].drawElement(self.screen)
         # self.screen.printScreen()

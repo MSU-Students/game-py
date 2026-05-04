@@ -47,18 +47,8 @@ class BasePlayer(Element):
     def setRemainingLife(self, life: int):
         self.life = life
 
-class EnemyPlayer(BasePlayer):
-    life = 100
-    def __init__(self, fName='', lName=''):
-        super().__init__(fName, lName)
-        self._avatar = '[*]'
-    def decrementLife(self):
-        self.life = self.life - 1
-    def getType():
-        return 'Enemy'
-    def fullName(self, separator=' '):
-        return f'[Enemy] {super().fullName(separator)}'
-    
+# EnemyPlayer moved to enemyplayer.py
+
 
 #AirPlaneStates
 STEADY = -1
@@ -67,6 +57,10 @@ GOING_RIGHT = 1
 GOING_UP = 2
 GOING_DOWN = 3
 
+
+
+# Enemy03 moved to enemyplayer.py
+
 class AirPlane(BasePlayer, AnimationFrame):
     kill = 0
     state = STEADY
@@ -74,9 +68,14 @@ class AirPlane(BasePlayer, AnimationFrame):
         super().__init__(fName, lName)
         self._avatar = '[8]'
         self.loadAnimation('./animations/plane.txt')
-    def incrementKill(self, enemy: EnemyPlayer):
+    def incrementKill(self, enemy: 'EnemyPlayer'):
         self.kill = self.kill + 1
         enemy.decrementLife()
+        if hasattr(enemy, 'is_alive') and not enemy.is_alive():
+            try:
+                self.amos = [a for a in self.amos if getattr(a, 'alive', True)]
+            except:
+                pass
     def getType():
         return 'Main'
     def fullName(self, separator=' '):
