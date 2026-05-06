@@ -64,14 +64,24 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
         
         self.welcomeScreen()
         userName = self.profileInput()
+
+        
         
         #self.mainPlayer.drawElement(self.screen)
         self.loadMainPlayer(userName)
         self.loadEnemies()
         #self.enemies[0].setPosition((30, 10))
+
+
+        self.enemies[0].setPosition((5, 1))
         
         #self.enemies[0].drawElement(self.screen)
         #self.screen.printScreen()
+
+        self.loadingScreen() #will loads the game before it strts
+
+
+
 
         # Start Getting Input
         
