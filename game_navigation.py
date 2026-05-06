@@ -2,6 +2,7 @@ from utils import sleep, goto_xy
 from screen import Screen
 from player import AirPlane
 from pynput import keyboard
+import game_levels
 class GameNavigation:
     screen: Screen
     mainPlayer: AirPlane
@@ -32,6 +33,7 @@ class GameNavigation:
             self.screen.clearScreen()
             self.screen.drawFrame()
             self.mainPlayer.drawElement(self.screen)
+            self.displayDifficulty(1)
             self.screen.printScreen()
             sleep(0.1)
             self.mainPlayer.nextFrame(self.screen)
@@ -40,12 +42,11 @@ class GameNavigation:
         self.screen.drawFrame()
         self.screen.drawStringAt(10, 4, 'Good Bye, from GAME PY')
         self.screen.printScreen()
-        self.screen.drawStringAt(60, 2, f"Difficulty: {label}")
 
-    def draw_difficulty_indicator(self, screen, level_difficulty):
-        if level_difficulty < 5:
-            label = "Difficulty: Easy"
-        elif level_difficulty < 10:
-            label = "Difficulty: Moderate"
-        else:
-            label = "Difficulty: Hard"
+    def displayDifficulty(self, level: int):
+        if (level == game_levels.EASY):
+            self.screen.drawStringAt(3, 2, 'Difficulty: EASY')
+        elif (level == game_levels.MODERATE):
+            self.screen.drawStringAt(3, 2, 'Difficulty: MODERATE')
+        elif (level == game_levels.HARD):
+            self.screen.drawStringAt(3, 2, 'Difficulty: HARD')
