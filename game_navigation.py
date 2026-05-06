@@ -16,6 +16,9 @@ class GameNavigation:
         self.screen.clearScreen()
         self.screen.drawFrame()
 
+    def displayLife(self): #This will display the Health of the player while playing
+        self.screen.drawStringAt(65 , 2, f'life: {str(self.mainPlayer.life)}')
+
     def profileInput(self):
         self.resetScreen()
         self.screen.drawStringAt(3, 10, 'Enter Your Name:')
@@ -33,6 +36,7 @@ class GameNavigation:
             self.screen.clearScreen()
             self.screen.drawFrame()
             self.mainPlayer.drawElement(self.screen)
+            self.displayLife()
             self.displayDifficulty(1)
             self.screen.printScreen()
             sleep(0.1)
@@ -42,6 +46,8 @@ class GameNavigation:
         self.screen.drawFrame()
         self.screen.drawStringAt(10, 4, 'Good Bye, from GAME PY')
         self.screen.printScreen()
+        
+
 
     def displayDifficulty(self, level: int):
         if (level == game_levels.EASY):
