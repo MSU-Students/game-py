@@ -1,11 +1,12 @@
 from utils import sleep, goto_xy
 from screen import Screen
-from player import AirPlane
+from player import AirPlane, EnemyPlayer
 from pynput import keyboard
 import game_levels
 class GameNavigation:
     screen: Screen
     mainPlayer: AirPlane
+    enemies: list[EnemyPlayer]
     listener: keyboard.Listener
     def welcomeScreen(self):
         self.screen.drawStringAt(3, 10, 'Welcome to GAME PY')
@@ -41,15 +42,25 @@ class GameNavigation:
 
 
     def startGame(self):
-        while self.listener.running:            
+        while self.listener.running:     
             self.screen.clearScreen()
             self.screen.drawFrame()
             self.mainPlayer.drawElement(self.screen)
+            for enemy in self.enemies:
+                enemy.drawElement(self.screen)
+                enemy.moveEnemy(self.mainPlayer._position[0])
             self.displayLife()
             self.displayDifficulty(1)
             self.screen.printScreen()
             sleep(0.1)
             self.mainPlayer.nextFrame(self.screen)
+            for enemy in self.enemies:
+                enemy.nextFrame(self.screen)
+
+            
+
+
+
 
     def exitGame(self):
         self.screen.drawFrame()

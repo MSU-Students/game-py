@@ -24,7 +24,8 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
         self.mainPlayer = AirPlane(firstName, lastName)
         self.enemies = [
             EnemyPlayer('Black', 'Bird'),
-            EnemyPlayer('Enel', 'God')
+            EnemyPlayer('Enel', 'God'),
+            EnemyPlayer('Goku', 'YellowHair')
         ]
         self.listener = keyboard.Listener(on_press=self.onPress)
     # called every start of iteration
@@ -57,6 +58,7 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
                 self.listener.stop()
         except:
             print('Something went wrong')
+
     def play(self):
         self.listener.start()
         
@@ -65,14 +67,16 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
 
         
         
-        # self.mainPlayer.drawElement(self.screen)
+        #self.mainPlayer.drawElement(self.screen)
         self.loadMainPlayer(userName)
+        self.loadEnemies()
+        #self.enemies[0].setPosition((30, 10))
 
 
         self.enemies[0].setPosition((5, 1))
         
-        # self.enemies[0].drawElement(self.screen)
-        # self.screen.printScreen()
+        #self.enemies[0].drawElement(self.screen)
+        #self.screen.printScreen()
 
         self.loadingScreen() #will loads the game before it strts
 
