@@ -2,6 +2,8 @@ import game_levels
 from player import EnemyPlayer
 from screen import Screen
 
+# Waves.py is all about waves and anything that relates to it such as enemy number, etc.
+
 WAVEONE, WAVETWO, WAVETHREE, WAVEFOUR, WAVEFIVE = 1, 2, 3, 4, 5
 class Waves:
     screen = Screen()
