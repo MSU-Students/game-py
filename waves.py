@@ -12,7 +12,6 @@ class Waves:
         self.count: int
         (self.width, self.height) = self.screen.getDimension()
 
-
     # Creates enemies (that are not bosses), pass it to some integer, it will spawn that number of enemies
     def instantiateEnemies(self, enemyNumberGetter: int):
         for i in range(enemyNumberGetter):
