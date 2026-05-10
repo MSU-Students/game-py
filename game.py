@@ -7,6 +7,7 @@ from game_story import GameStory
 from game_animation import GameAnimation
 from game_levels import GameLevels
 from game_profile import GameProfile
+from waves import Waves
 class InvalidFirstNameError(Exception):
     message = 'No First name provided'
     def __init__(self, msg:str = ''):
@@ -15,6 +16,7 @@ class InvalidFirstNameError(Exception):
 
 class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
     screen = Screen()
+    wave = Waves()
     __index = 0 # step 1
     def __init__(self, firstName:str, lastName):
         if firstName == '':
@@ -22,11 +24,12 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
         elif firstName.isdigit():
             raise InvalidFirstNameError('Number Name')
         self.mainPlayer = AirPlane(firstName, lastName)
-        self.enemies = [
-            EnemyPlayer('Black', 'Bird'),
-            EnemyPlayer('Enel', 'God'),
-            EnemyPlayer('Goku', 'YellowHair')
-        ]
+        self.enemies = self.wave.enemies
+        # self.enemies = [
+        #     EnemyPlayer('Black', 'Bird'),
+        #     EnemyPlayer('Enel', 'God'),
+        #     EnemyPlayer('Goku', 'YellowHair')
+        # ]
         self.listener = keyboard.Listener(on_press=self.onPress)
     # called every start of iteration
     def __iter__(self): #step 2
@@ -73,7 +76,6 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
         #self.enemies[0].setPosition((30, 10))
 
 
-        self.enemies[0].setPosition((5, 1))
         
         #self.enemies[0].drawElement(self.screen)
         #self.screen.printScreen()

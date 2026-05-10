@@ -3,11 +3,13 @@ from screen import Screen
 from player import AirPlane, EnemyPlayer
 from pynput import keyboard
 import game_levels
+from waves import Waves
 class GameNavigation:
     screen: Screen
     mainPlayer: AirPlane
     enemies: list[EnemyPlayer]
     listener: keyboard.Listener
+    wave: Waves
     def welcomeScreen(self):
         self.screen.drawStringAt(3, 10, 'Welcome to GAME PY')
         self.screen.printScreen()
@@ -50,8 +52,8 @@ class GameNavigation:
                 enemy.drawElement(self.screen)
                 enemy.moveEnemy(self.mainPlayer._position[0])
                 enemy.nextFrame(self.screen)
-            print(self.enemies[0]._position[1])
-
+        
+            print(self.enemies[0].enemyTimer.targetTime, '       ', self.enemies[2].enemyTimer.targetTime)
             self.displayLife()
             self.displayDifficulty(1)
             self.screen.printScreen()
