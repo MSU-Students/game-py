@@ -7,6 +7,7 @@ from game_story import GameStory
 from game_animation import GameAnimation
 from game_levels import GameLevels
 from game_profile import GameProfile
+
 class InvalidFirstNameError(Exception):
     message = 'No First name provided'
     def __init__(self, msg:str = ''):
@@ -71,11 +72,30 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
         # self.enemies[0].drawElement(self.screen)
         # self.screen.printScreen()
 
-        # Start Getting Input
-        
+        # Start Getting Input and Updating the Screen
         self.startGame()
 
         self.exitGame()
+
+    def blinkText(self, screen, text = "READY?", x=10, y=5, times=3):
+        for i in range(times):
+            #show the text
+            screen.clearScreen()
+            screen.drawStringAt(x, y, text)
+            screen.printScreen()
+            sleep(0.5)
+
+            #hide the text
+            screen.clearScreen()
+            screen.printScreen()
+            sleep(0.5)
+
+    def play(self):
+        self.welcomeScreen()
+        self.blinkText(self.screen, "READY?", 10, 5, 3)
+        self.startGame()
+        self.exitGame()
+
 
 
         
