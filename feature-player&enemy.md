@@ -3,7 +3,7 @@
 ## Player Character: "CAPTAIN AIDEN"
 
 As the main character, **Aiden**,  
-I want to move, jump, and fight enemies,  
+I want to move, and fight enemies,  
 so that I can survive and complete my journey.
 
 ### Abilities:
