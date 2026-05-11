@@ -17,6 +17,7 @@ class Waves:
 
     # Creates enemies (that are not bosses), pass it to some integer, it will spawn that number of enemies
     def instantiateEnemies(self, enemyNumberGetter: int):
+        self.enemies.clear() # Ensures that any overwritten data before this is cleared.
         for i in range(enemyNumberGetter):
             self.enemy = EnemyPlayer()
             self.enemies.append(self.enemy)
