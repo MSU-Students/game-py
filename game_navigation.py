@@ -10,9 +10,11 @@ class GameNavigation:
     enemies: list[EnemyPlayer]
     listener: keyboard.Listener
     wave: Waves
-    
+    paused: bool
+    pauseMessage: str
     def __init__(self):
         self.paused = False
+        self.pauseMessage = ''
     def welcomeScreen(self):
         self.screen.drawStringAt(3, 10, 'Welcome to GAME PY')
         self.screen.printScreen()
@@ -52,6 +54,8 @@ class GameNavigation:
             self.screen.drawFrame()
             if self.paused:
                 self.screen.drawStringAt(10, 5, 'PAUSED - Press P')
+                if (self.pauseMessage != ''):
+                    self.screen.drawStringAt(20, 10, f'Something went wrong: {self.pauseMessage}')
             else:
                 self.mainPlayer.drawElement(self.screen)
                 for enemy in self.enemies:

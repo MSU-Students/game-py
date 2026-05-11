@@ -30,7 +30,8 @@ class Screen:
     def drawStringAt(self, x = 1, y = 1, c = 'X'):
         i = 0
         for ch in c:
-            self.__pixels[y][x + i] = ch
+            if (x + i < self.__width):
+                self.__pixels[y][x + i] = ch
             i += 1
     def clearScreen(self):
         self.__pixels = np.full((self.__height, self.__width), ' ')
