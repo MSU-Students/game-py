@@ -1,8 +1,9 @@
 from abc import abstractmethod
-from utils import clear_console, goto_xy
+from utils import clear_console, goto_xy, TimeClass
 from element import Element
 from animation_frame import AnimationFrame
 from amo import Amo
+import random
 class BasePlayer(Element):
     # Constructor
     def __init__(self, fName = '', lName = ''):
@@ -38,7 +39,7 @@ class BasePlayer(Element):
 
     def nextFrame(self, screen):
         for amo in self.amos:
-            amo.nextFrame(screen)
+            amo.nextFrame(screen, 0, -1)
 
     def display(self):
         goto_xy(self._position)
@@ -47,17 +48,70 @@ class BasePlayer(Element):
     def setRemainingLife(self, life: int):
         self.life = life
 
-class EnemyPlayer(BasePlayer):
-    life = 100
+class EnemyPlayer(BasePlayer, Element):
     def __init__(self, fName='', lName=''):
         super().__init__(fName, lName)
+        Element.__init__(self, [
+            ['\\','|',' ','|', '/'],
+            [' ','\\',' ','/',' '],
+            [' ',' ','v',' ',' ']
+        ])
+        #Amo.nextFrame
+        self.life = 100
+        self.targetDirectionX: int # Determines the x-direction of the main player from enemy
+        self.mainPlayerDir: str = "middle"# "left" or "right" or "middle" direction of the main player from enemy
+        self.moveSpeed: int
+        self.allowEnemyFire: bool = True # Allows enemy firing, this is to ensure that it doesn't fire endlessly
+        self.enemyTimer = TimeClass()
         self._avatar = '[*]'
+        self.moveSpeed = 1 # The movement speed of the enemy by default
+        self.randomizer = random.Random()
+        self.randomCooldown: float = self.randomizer.uniform(1.5, 5.0) # randomizes the cooldown each movement of the enemy
+
+
     def decrementLife(self):
         self.life = self.life - 1
     def getType():
         return 'Enemy'
     def fullName(self, separator=' '):
         return f'[Enemy] {super().fullName(separator)}'
+    def fire(self):
+        self.amos.append(Amo((self._position[0] + 2, self._position[1] + 1)))
+    def nextFrame(self, screen):
+        for amo in self.amos:
+            amo.nextFrame(screen, 0, 1)
+    def moveEnemy(self, mainPlayerPosX: int): # Moves enemy when called
+        self.enemyTimer.timeCheck()
+        self.enemyTimer.startTimer(self.randomCooldown)
+        self.enemyTimer.timerFinished()
+        self.targetDirectionX = mainPlayerPosX - self._position[0] # Determines the x-direction of the player
+        
+        #Determines the direction of the main Player every once in a while
+        if self.enemyTimer.currentTime >= self.enemyTimer.targetTime - 0.5 and self.enemyTimer.currentTime <= self.enemyTimer.targetTime:
+            self.randomCooldown: float = self.randomizer.uniform(1.5, 5.0)
+            if self.targetDirectionX < 0: 
+                self.mainPlayerDir = "left"
+            elif self.targetDirectionX > 0: 
+                self.mainPlayerDir = "right"
+            else: 
+                self.mainPlayerDir = "middle"
+
+            if self.allowEnemyFire == True:
+                self.fire()
+                self.allowEnemyFire = False
+        elif self.enemyTimer.currentTime < self.enemyTimer.targetTime and self.allowEnemyFire == False:
+            self.allowEnemyFire = True
+
+
+        #Moves the enemy according to the direction of the main Player
+        if self.enemyTimer.currentTime <= self.enemyTimer.targetTime - 2:
+            if self.mainPlayerDir == "left": # If main Player is on the left of the enemy, move left
+                self.movePosition((-self.moveSpeed, 0))
+            elif self.mainPlayerDir == "right": # if main Player is on the right of the enemy, move right
+                self.movePosition((self.moveSpeed, 0))
+            elif self.mainPlayerDir == "middle": # if main Player is neither left nor right, remain steady
+                self.movePosition((0, 0))
+   
     
 
 #AirPlaneStates

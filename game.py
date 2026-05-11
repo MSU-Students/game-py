@@ -7,7 +7,7 @@ from game_story import GameStory
 from game_animation import GameAnimation
 from game_levels import GameLevels
 from game_profile import GameProfile
-
+from waves import Waves
 class InvalidFirstNameError(Exception):
     message = 'No First name provided'
     def __init__(self, msg:str = ''):
@@ -16,17 +16,21 @@ class InvalidFirstNameError(Exception):
 
 class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
     screen = Screen()
+    wave = Waves()
     __index = 0 # step 1
     def __init__(self, firstName:str, lastName):
+        super().__init__()
         if firstName == '':
             raise InvalidFirstNameError()
         elif firstName.isdigit():
             raise InvalidFirstNameError('Number Name')
         self.mainPlayer = AirPlane(firstName, lastName)
-        self.enemies = [
-            EnemyPlayer('Black', 'Bird'),
-            EnemyPlayer('Enel', 'God')
-        ]
+        self.enemies = self.wave.enemies
+        # self.enemies = [
+        #     EnemyPlayer('Black', 'Bird'),
+        #     EnemyPlayer('Enel', 'God'),
+        #     EnemyPlayer('Goku', 'YellowHair')
+        # ]
         self.listener = keyboard.Listener(on_press=self.onPress)
     # called every start of iteration
     def __iter__(self): #step 2
@@ -42,8 +46,12 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
             return self.enemies[self.__index - 2]
         else:
             raise StopIteration #step 4
-    def onPress(self, key):
+    def onPress(self, key:keyboard.KeyCode):
         try:
+            if hasattr(key, 'char') and key.char is not None and key.char.lower() == 'p':
+                self.paused = not self.paused
+            if (self.paused): 
+                return 
             if key == keyboard.Key.up:
                 self.mainPlayer.goUp()
             elif key == keyboard.Key.down:
@@ -56,21 +64,32 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
                 self.mainPlayer.fire()
             elif key == keyboard.Key.esc:
                 self.listener.stop()
-        except:
-            print('Something went wrong')
+        except Exception as e:
+            self.pauseMessage = f'Something went wrong: {e}'
+            self.paused = True
+
     def play(self):
         self.listener.start()
         
         self.welcomeScreen()
         userName = self.profileInput()
-        
-        # self.mainPlayer.drawElement(self.screen)
-        self.loadMainPlayer(userName)
 
-        self.enemies[0].setPosition((5, 1))
         
-        # self.enemies[0].drawElement(self.screen)
-        # self.screen.printScreen()
+        
+        #self.mainPlayer.drawElement(self.screen)
+        self.loadMainPlayer(userName)
+        self.loadEnemies()
+        #self.enemies[0].setPosition((30, 10))
+
+
+        
+        #self.enemies[0].drawElement(self.screen)
+        #self.screen.printScreen()
+
+        self.loadingScreen() #will loads the game before it strts
+
+
+
 
         # Start Getting Input and Updating the Screen
         self.startGame()
