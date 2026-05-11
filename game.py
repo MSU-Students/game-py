@@ -19,6 +19,7 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
     wave = Waves()
     __index = 0 # step 1
     def __init__(self, firstName:str, lastName):
+        super().__init__()
         if firstName == '':
             raise InvalidFirstNameError()
         elif firstName.isdigit():
@@ -45,8 +46,12 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
             return self.enemies[self.__index - 2]
         else:
             raise StopIteration #step 4
-    def onPress(self, key):
+    def onPress(self, key:keyboard.KeyCode):
         try:
+            if key.char != None and key.char.lower() == 'p':
+                self.paused = not self.paused
+            if (self.paused): 
+                return 
             if key == keyboard.Key.up:
                 self.mainPlayer.goUp()
             elif key == keyboard.Key.down:
@@ -59,8 +64,9 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
                 self.mainPlayer.fire()
             elif key == keyboard.Key.esc:
                 self.listener.stop()
-        except:
-            print('Something went wrong')
+        except Exception as e:
+            self.pauseMessage = f'Something went wrong: {e}'
+            self.paused = True
 
     def play(self):
         self.listener.start()
@@ -89,6 +95,7 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
         
         self.startGame()
 
+        self.on_press()
         self.exitGame()
 
 
