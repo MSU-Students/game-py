@@ -21,7 +21,8 @@ class Waves:
             self.enemy = EnemyPlayer()
             self.enemies.append(self.enemy)
 
-    # Used to load enemies' position once the main game started
+    # Used to load enemies', pass it to some integer to spawn that number of enemies once the main game started
+    # It is also used for the initial position of the enemies.
     def loadEnemyPos(self, enemyNumberGetter: int):
         self.instantiateEnemies(enemyNumberGetter)
 
