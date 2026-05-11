@@ -10,6 +10,11 @@ class GameNavigation:
     enemies: list[EnemyPlayer]
     listener: keyboard.Listener
     wave: Waves
+    paused: bool
+    pauseMessage: str
+    def __init__(self):
+        self.paused = False
+        self.pauseMessage = ''
     def welcomeScreen(self):
         self.screen.drawStringAt(3, 10, 'Welcome to GAME PY')
         self.screen.printScreen()
@@ -63,20 +68,14 @@ class GameNavigation:
                 self.displayDifficulty(1)
             self.screen.printScreen()
             sleep(0.1)
-            self.mainPlayer.nextFrame(self.screen)
-
-
-            
-
-
+                
 
 
     def exitGame(self):
         self.screen.drawFrame()
         self.screen.drawStringAt(10, 4, 'Good Bye, from GAME PY')
         self.screen.printScreen()
-        
-
+    
 
     def displayDifficulty(self, level: int):
         if (level == game_levels.EASY):
