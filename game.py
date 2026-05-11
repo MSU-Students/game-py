@@ -95,7 +95,6 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
         
         self.startGame()
 
-        self.on_press()
         self.exitGame()
 
 
