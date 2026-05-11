@@ -47,15 +47,20 @@ class GameNavigation:
         while self.listener.running:     
             self.screen.clearScreen()
             self.screen.drawFrame()
-            self.mainPlayer.drawElement(self.screen)
-            for enemy in self.enemies:
-                enemy.drawElement(self.screen)
-                enemy.moveEnemy(self.mainPlayer._position[0])
-                enemy.nextFrame(self.screen)
-        
-            print(self.enemies[0].enemyTimer.targetTime, '       ', self.enemies[2].enemyTimer.targetTime)
-            self.displayLife()
-            self.displayDifficulty(1)
+            if self.paused:
+                self.screen.drawStringAt(10, 5, 'PAUSED - Press P')
+                if (self.pauseMessage != ''):
+                    self.screen.drawStringAt(0, 10, f'Something went wrong: {self.pauseMessage}')
+            else:
+                self.mainPlayer.drawElement(self.screen)
+                for enemy in self.enemies:
+                    enemy.drawElement(self.screen)
+                    enemy.moveEnemy(self.mainPlayer._position[0])
+                    enemy.nextFrame(self.screen)
+            
+                print(self.enemies[0].enemyTimer.targetTime, '       ', self.enemies[2].enemyTimer.targetTime)
+                self.displayLife()
+                self.displayDifficulty(1)
             self.screen.printScreen()
             sleep(0.1)
             self.mainPlayer.nextFrame(self.screen)

@@ -47,6 +47,10 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
             raise StopIteration #step 4
     def onPress(self, key):
         try:
+            if hasattr(key, 'char') and key.char is not None and key.char.lower() == 'p':
+                self.paused = not self.paused
+            if (self.paused): 
+                return 
             if key == keyboard.Key.up:
                 self.mainPlayer.goUp()
             elif key == keyboard.Key.down:
