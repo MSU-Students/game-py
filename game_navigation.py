@@ -1,11 +1,16 @@
 from utils import sleep, goto_xy
 from screen import Screen
-from player import AirPlane
+from player import AirPlane, EnemyPlayer
 from pynput import keyboard
+import game_levels
+from waves import Waves
 class GameNavigation:
     screen: Screen
     mainPlayer: AirPlane
+    enemies: list[EnemyPlayer]
     listener: keyboard.Listener
+    wave: Waves
+    
     def __init__(self):
         self.paused = False
     def welcomeScreen(self):
@@ -16,6 +21,9 @@ class GameNavigation:
     def resetScreen(self):
         self.screen.clearScreen()
         self.screen.drawFrame()
+
+    def displayLife(self): #This will display the Health of the player while playing
+        self.screen.drawStringAt(65 , 32, f'life: {str(self.mainPlayer.life)}')
 
     def profileInput(self):
         self.resetScreen()
@@ -29,36 +37,46 @@ class GameNavigation:
         sleep(3)
         return user
     
-    def startGame(self):
-        self.listener = keyboard.Listener(on_press=self.on_press)
-        self.listener.start()
+    
+    def loadingScreen(self):
+        self.resetScreen()
+        self.screen.drawStringAt(33, 17, 'Get ready...')
+        self.screen.printScreen()
+        sleep(5)
+ 
 
-        while True:        
+
+    def startGame(self):
+        while self.listener.running:     
             self.screen.clearScreen()
             self.screen.drawFrame()
-
             if self.paused:
                 self.screen.drawStringAt(10, 5, 'PAUSED - Press P')
             else:
                 self.mainPlayer.drawElement(self.screen)
-                self.mainPlayer.nextFrame(self.screen)
-
+                for enemy in self.enemies:
+                    enemy.drawElement(self.screen)
+                    enemy.moveEnemy(self.mainPlayer._position[0])
+                    enemy.nextFrame(self.screen)
+            
+                print(self.enemies[0].enemyTimer.targetTime, '       ', self.enemies[2].enemyTimer.targetTime)
+                self.displayLife()
+                self.displayDifficulty(1)
             self.screen.printScreen()
             sleep(0.1)
                 
+
 
     def exitGame(self):
         self.screen.drawFrame()
         self.screen.drawStringAt(10, 4, 'Good Bye, from GAME PY')
         self.screen.printScreen()
     
-    def on_press(self, key):
-        try:
-            if key.char == 'p':
-                self.paused = not self.paused 
-                print (f"Paused status: {self.paused}")
 
-        except AttributeError:
-
-            pass
-        
+    def displayDifficulty(self, level: int):
+        if (level == game_levels.EASY):
+            self.screen.drawStringAt(3, 32, 'Difficulty: EASY')
+        elif (level == game_levels.MODERATE):
+            self.screen.drawStringAt(3, 32, 'Difficulty: MODERATE')
+        elif (level == game_levels.HARD):
+            self.screen.drawStringAt(3, 32, 'Difficulty: HARD')
