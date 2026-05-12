@@ -84,6 +84,7 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
         self.chooseDifficulty()
         
         self.setupGame()
+        self.spawnGameBasedOnDiff()
         self.loadMainPlayer(userName)
         
         self.loadingScreen() 

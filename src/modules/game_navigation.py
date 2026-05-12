@@ -144,7 +144,7 @@ class GameNavigation(ABC):
 
             if (self.waves.waveChanged == True): # After a wave is complete, configure another wave of enemies.
                 if (self.timeClass.timerFinished() == True): # References of self.timeClass methods are in the displayNextWave().
-                    self.gameLevels.setupGame(self)            
+                    self.gameLevels.spawnGameBasedOnDiff(self)       
 
             self.displayLife()
             self.displayDifficulty(1)

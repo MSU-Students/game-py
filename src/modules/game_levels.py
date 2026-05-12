@@ -18,11 +18,18 @@ class GameLevels:
     def setupGame(self):
         if (currentDifficulty == EASY):
             self.mainPlayer.setRemainingLife(10)
+        elif (currentDifficulty == MODERATE):
+            self.mainPlayer.setRemainingLife(15)
+        elif (currentDifficulty == HARD):
+            self.mainPlayer.setRemainingLife(20)
+    
+    def spawnGameBasedOnDiff(self):
+        if (currentDifficulty == EASY):
             self.waves.waveSpawnEnemiesOnEasy()
         elif (currentDifficulty == MODERATE):
-            pass
+            self.waves.waveSpawnEnemiesOnModerate()
         elif (currentDifficulty == HARD):
-            pass
+            self.waves.waveSpawnEnemiesOnHard()
     
     def checkCollisions(self):
         self.mainPlayer.checkIfColliding(self.enemies)

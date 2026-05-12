@@ -17,5 +17,3 @@ class GameStory:
         (width, height) = self.screen.getDimension()
         self.mainPlayer.setPosition((int(width / 2), height - 8))
 
-
-    
