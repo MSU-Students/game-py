@@ -82,7 +82,7 @@ class Waves:
         """Creates a number of enemies according to the current wave and easy difficulty"""
         self.setEnemiesRemainingLife(3)
         if self.currentWave == WAVEONE:
-            self.loadEnemyPos(23)
+            self.loadEnemyPos(5)
         elif self.currentWave == WAVETWO:
             self.loadEnemyPos(9)
         elif self.currentWave == WAVETHREE:
@@ -94,6 +94,7 @@ class Waves:
     
     def waveSpawnEnemiesOnModerate(self):
         """Creates a number of enemies according to the current wave and moderate difficulty"""
+        self.setEnemiesRemainingLife(5)
         if self.currentWave == WAVEONE:
             self.loadEnemyPos(10)
         elif self.currentWave == WAVETWO:
@@ -106,6 +107,7 @@ class Waves:
             self.loadEnemyPos(20)
 
     def waveSpawnEnemiesOnHard(self):
+        self.setEnemiesRemainingLife(8)
         """Creates a number of enemies according to the current wave and hard difficulty"""
         if self.currentWave == WAVEONE:
             self.loadEnemyPos(20)
