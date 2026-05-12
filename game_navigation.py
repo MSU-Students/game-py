@@ -42,9 +42,10 @@ class GameNavigation:
     
     def loadingScreen(self):
         self.resetScreen()
+        self.blinkText(self.screen, "READY?", 10, 5, 3)
         self.screen.drawStringAt(33, 17, 'Get ready...')
         self.screen.printScreen()
-        sleep(5)
+        sleep(1)
  
 
 

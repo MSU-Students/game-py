@@ -72,8 +72,9 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
         self.listener.start()
         
         self.welcomeScreen()
-        userName = self.profileInput()
 
+        userName = self.profileInput()
+        
         
         
         #self.mainPlayer.drawElement(self.screen)
@@ -100,6 +101,7 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
         for i in range(times):
             #show the text
             screen.clearScreen()
+            self.screen.drawFrame();
             screen.drawStringAt(x, y, text)
             screen.printScreen()
             sleep(0.5)
@@ -109,11 +111,7 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
             screen.printScreen()
             sleep(0.5)
 
-    def play(self):
-        self.welcomeScreen()
-        self.blinkText(self.screen, "READY?", 10, 5, 3)
-        self.startGame()
-        self.exitGame()
+
 
 
 
