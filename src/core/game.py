@@ -25,37 +25,12 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
         self.waves = Waves(self.screen)
         
         self.mainPlayer = AirPlane()
+        self.waves.spawn_enemy()
         self.enemies = self.waves.enemies
-        # spawn initial enemy
-        try:
-            self.spawn_enemy()
-        except Exception:
-            # fallback: create directly if spawn_enemy not available
-            try:
-                e = Enemy03('Waving', 'Enemy')
-                self.enemies.append(e)
-            except Exception:
-                pass
         
-        # self.enemies = [
-        #     EnemyPlayer('Black', 'Bird'),
-        #     EnemyPlayer('Enel', 'God'),
-        #     EnemyPlayer('Goku', 'YellowHair')
-        # ]
         self.listener = keyboard.Listener(on_press=self.onPress)
-    # TODO: move to waves
-    def spawn_enemy(self):
-        """Create and position a new Enemy03 at the top-center of the screen."""
-        e = Enemy03('Waving', 'Enemy')
-        width, height = self.screen.getDimension()
-        # try to center enemy (assume width of frame ~3); place at row 1
-        e.setPosition((max(1, int(width / 2) - 1), 1))
-        try:
-            e.setState(0)
-        except Exception:
-            pass
-        self.enemies.append(e)
-   
+    
+
     # called every start of iteration
     def __iter__(self): #step 2
         self.__index = 0
@@ -98,6 +73,9 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
     
     def afterNextFrame(self):
         self.eliminateDeads()
+        for enemy in self.waves.enemies:
+            if (hasattr(enemy, 'moveEnemy')):
+                enemy.moveEnemy(self.mainPlayer._position[0])
     
     def play(self):
         self.listener.start()

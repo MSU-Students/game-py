@@ -1,5 +1,5 @@
 import src.modules.game_levels as game_levels
-from src.components.enemy_player import EnemyPlayer
+from src.components.enemy_player import Enemy03, EnemyPlayer
 from src.core.screen import Screen
 
 # Waves.py is all about waves and anything that relates to it such as enemy number, etc.
@@ -30,4 +30,19 @@ class Waves:
             for enemy in range(enemyNumberGetter):
                 self.count = enemy + 1
                 self.enemies[enemy].setPosition((int(self.distancer * self.count) - 11, 2))
+                
+    def spawn_enemy(self):
+        spawnEnemies = list(filter(lambda enemy: isinstance(enemy, Enemy03), self.enemies))
+        if (spawnEnemies.__len__() > 0):
+            return
+        """Create and position a new Enemy03 at the top-center of the screen."""
+        e = Enemy03('Waving', 'Enemy')
+        width, height = self.screen.getDimension()
+        # try to center enemy (assume width of frame ~3); place at row 1
+        e.setPosition((max(1, int(width / 2) - 1), 1))
+        try:
+            e.setState(0)
+        except Exception:
+            pass
+        self.enemies.append(e)
 

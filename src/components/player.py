@@ -19,6 +19,7 @@ class BasePlayer(Element):
         self.amos = list[Amo]()
         self.life = 1
         self.alive = True
+        self.kill = 0
 
     def __secret(self): 
         return f'{self.age}{self.first_name[0]}'
@@ -88,7 +89,6 @@ GOING_UP = 2
 GOING_DOWN = 3
 
 class AirPlane(BasePlayer, AnimationFrame):
-    kill = 0
     state = STEADY
     def __init__(self, fName='', lName=''):
         super().__init__(fName, lName)

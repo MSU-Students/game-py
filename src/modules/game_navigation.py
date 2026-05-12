@@ -81,10 +81,8 @@ class GameNavigation(ABC):
                     self.screen.drawStringAt(0, 10, f'Something went wrong: {self.pauseMessage}')
             else:
                 self.beforeNextFrame()
-                self.mainPlayer.drawElement(self.screen)
-                self.mainPlayer.nextFrame(self.screen)
                 player : BasePlayer   
-                for player in self.enemies:
+                for player in self:
                     player.drawElement(self.screen)
                     player.nextFrame(self.screen)
                     

@@ -1,4 +1,5 @@
 import random
+from src.components.amo import Amo
 from src.components.animation_frame import AnimationFrame
 from src.components.player import BasePlayer, STEADY, GOING_LEFT, GOING_RIGHT
 from src.components.element import Element
@@ -112,6 +113,9 @@ class Enemy03(BasePlayer, AnimationFrame):
         if frame:
             self._current_frame = frame
         self.movePosition((0, 1))
+        if (self._position[1] >= screen.getDimension()[1]):
+            self.setPosition((self._position[0], 0))
+        
 
     def getFrame(self):
         if not self.is_alive():
