@@ -16,6 +16,27 @@ class Player :
             json.dump(self.to_dict(),f, indent=4)
         print(f"Game save for {self.name}!")
 
+    def complete_stage(self, points_earned):
+        self.score += points_earned
+        self.stage += 1
+        print(f"Level Up! {self.name} is now on Stage {self.stage}")
+        self.saving_profile()
+
+    @staticmethod
+    def select_profile():
+        files = [f for f in os.listdir() if f.endswith("_saved.json")]
+        if not files:
+            print("No profiles found. Create a new one!")
+            return None
+        print("\n--- Select Your Profile ---")
+        for i, filename in enumerate(files):
+            display_name = filename.replace("_saved.json", "")
+            print(f"{i + 1}. {display_name}")
+        
+        choice = int(input("Enter number: ")) - 1
+        selected_name = files[choice].replace("_saved.json", "")
+        return Player.loading_profile(selected_name)
+    
     @classmethod
     def loading_profile(cls,name):
         filename = f"{name}_save.json"
