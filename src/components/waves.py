@@ -16,7 +16,7 @@ class Waves:
         self.count: int
         (self.width, self.height) = self.screen.getDimension()
 
-    # Creates enemies (that are not bosses), pass it to some integer, it will spawn that number of enemies
+    # Creates enemies (that are not bosses), pass it to some integer, it will instance that number of enemies
     def instantiateEnemies(self, enemyNumberGetter: int):
         self.enemies.clear() # Ensures that any overwritten data before this is cleared.
         for i in range(enemyNumberGetter):
@@ -29,14 +29,14 @@ class Waves:
         self.instantiateEnemies(enemyNumberGetter)
 
         if enemyNumberGetter == 5:
-            """If number of enemies is five, form in one horizontal line"""
+            #If number of enemies is five, form in one horizontal line
             self.distancer = self.width / 5
             for enemy in range(enemyNumberGetter):
                 self.count = enemy + 1
                 self.enemies[enemy].setPosition((int(self.distancer * self.count) - 11, 2))
         
         elif enemyNumberGetter > 5 and enemyNumberGetter <= 10:
-            """If number of enemies is more than five and less than 11, form in two horizontal lines"""
+            # If number of enemies is more than five and less than 11, form in two horizontal lines
             self.distancer = self.width / 5
             for enemy in range(enemyNumberGetter):
                 if enemy <= 4: # Line of enemies number 1
@@ -45,7 +45,35 @@ class Waves:
                 if enemy > 4: # Line of enemies number 2
                     self.count = enemy - 4
                     self.enemies[enemy].setPosition((int(self.distancer * self.count) - 11, 6))
+        
+        elif enemyNumberGetter > 10 and enemyNumberGetter <= 15:
+            # If number of enemies is more than ten and less than 16, form in three horizontal lines
+            self.distancer = self.width / 5
+            for enemy in range(enemyNumberGetter):
+                if enemy <= 4: # Line of enemies number 1
+                    self.count = enemy + 1
+                    self.enemies[enemy].setPosition((int(self.distancer * self.count) - 11, 2))
+                if enemy > 4 and enemy <= 9 : # Line of enemies number 2
+                    self.count = enemy - 4
+                    self.enemies[enemy].setPosition((int(self.distancer * self.count) - 11, 6))
+                if enemy > 9: # Line of enemies number 3
+                    self.count = enemy - 9
+                    self.enemies[enemy].setPosition((int(self.distancer * self.count) - 11, 10))
     
+        elif enemyNumberGetter > 15 and enemyNumberGetter <= 30:
+            # If number of enemies is more than fifteen and less than 31, form in three horizontal lines
+            self.distancer = self.width / 11
+            for enemy in range(enemyNumberGetter):
+                if enemy <= 9: # Line of enemies number 1
+                    self.count = enemy + 1
+                    self.enemies[enemy].setPosition((int(self.distancer * self.count) - 2, 2))
+                if enemy > 9 and enemy <= 19 : # Line of enemies number 2
+                    self.count = enemy - 9
+                    self.enemies[enemy].setPosition((int(self.distancer * self.count) - 2, 6))
+                if enemy > 19: # Line of enemies number 3
+                    self.count = enemy - 19
+                    self.enemies[enemy].setPosition((int(self.distancer * self.count) - 2, 10))    
+
     def setEnemiesRemainingLife(self, life: int):
         for enemy in self.enemies:
             enemy.setRemainingLife(life)
@@ -54,41 +82,41 @@ class Waves:
         """Creates a number of enemies according to the current wave and easy difficulty"""
         self.setEnemiesRemainingLife(3)
         if self.currentWave == WAVEONE:
-            self.loadEnemyPos(5)
+            self.loadEnemyPos(23)
         elif self.currentWave == WAVETWO:
             self.loadEnemyPos(9)
         elif self.currentWave == WAVETHREE:
-            pass
+            self.loadEnemyPos(5)
         elif self.currentWave == WAVEFOUR:
-            pass
+            self.loadEnemyPos(15)
         elif self.currentWave == WAVEFIVE:
-            pass
+            self.loadEnemyPos(10)
     
     def waveSpawnEnemiesOnModerate(self):
         """Creates a number of enemies according to the current wave and moderate difficulty"""
         if self.currentWave == WAVEONE:
-            pass
+            self.loadEnemyPos(10)
         elif self.currentWave == WAVETWO:
-            pass
+            self.loadEnemyPos(15)
         elif self.currentWave == WAVETHREE:
-            pass
+            self.loadEnemyPos(15)
         elif self.currentWave == WAVEFOUR:
-            pass
+            self.loadEnemyPos(18)
         elif self.currentWave == WAVEFIVE:
-            pass
+            self.loadEnemyPos(20)
 
     def waveSpawnEnemiesOnHard(self):
         """Creates a number of enemies according to the current wave and hard difficulty"""
         if self.currentWave == WAVEONE:
-            pass
+            self.loadEnemyPos(20)
         elif self.currentWave == WAVETWO:
-            pass
+            self.loadEnemyPos(25)
         elif self.currentWave == WAVETHREE:
-            pass
+            self.loadEnemyPos(20)
         elif self.currentWave == WAVEFOUR:
-            pass
+            self.loadEnemyPos(30)
         elif self.currentWave == WAVEFIVE:
-            pass
+            self.loadEnemyPos(25)
 
 
     def nextWave(self): # After all enemies are unalived, proceed to the next wave

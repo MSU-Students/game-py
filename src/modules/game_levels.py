@@ -15,7 +15,7 @@ class GameLevels:
     listener: keyboard.Listener
     waves: Waves
 
-    def setupGame(self):
+    def setupGame(self): # Initial only.
         if (currentDifficulty == EASY):
             self.mainPlayer.setRemainingLife(10)
         elif (currentDifficulty == MODERATE):
@@ -23,7 +23,7 @@ class GameLevels:
         elif (currentDifficulty == HARD):
             self.mainPlayer.setRemainingLife(20)
     
-    def spawnGameBasedOnDiff(self):
+    def spawnGameBasedOnDiff(self): # Initial and Post-initial.
         if (currentDifficulty == EASY):
             self.waves.waveSpawnEnemiesOnEasy()
         elif (currentDifficulty == MODERATE):
