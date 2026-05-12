@@ -1,5 +1,5 @@
+from abc import abstractmethod, ABC
 from pynput import keyboard
-
 from src.utils import sleep, goto_xy
 from src.core.screen import Screen
 from src.components.enemy_player import EnemyPlayer
@@ -7,7 +7,7 @@ from src.components.player import AirPlane, BasePlayer
 import src.modules.game_levels as game_levels
 from src.components.waves import Waves
 
-class GameNavigation:
+class GameNavigation(ABC):
     screen: Screen
     mainPlayer: AirPlane
     enemies: list[EnemyPlayer]
@@ -63,7 +63,14 @@ class GameNavigation:
             self.screen.printScreen()
             sleep(0.5)
 
-
+    @abstractmethod
+    def beforeNextFrame(self):
+        pass
+    
+    @abstractmethod
+    def afterNextFrame(self):
+        pass
+    
     def startGame(self):
         while self.listener.running:     
             self.screen.clearScreen()
@@ -73,11 +80,14 @@ class GameNavigation:
                 if (self.pauseMessage != ''):
                     self.screen.drawStringAt(0, 10, f'Something went wrong: {self.pauseMessage}')
             else:
+                self.beforeNextFrame()
                 # Draw by Iterating to each person in the game, refer to iterator function at game.py
                 person : BasePlayer   
                 for person in self:
                     person.drawElement(self.screen)
                     person.nextFrame(self.screen)
+                
+                self.afterNextFrame()
             
             self.displayLife()
             self.displayDifficulty(1)

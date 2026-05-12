@@ -47,7 +47,7 @@ class DescendingEnemy(BasePlayer):
             return
         self.movePosition((0, 1))
 
-    def get_hit_coords(self):
+    def getCoveredCoords(self):
         pixels = getattr(self, '_Element__pixels', None)
         if pixels is None:
             f = super().getFrame()

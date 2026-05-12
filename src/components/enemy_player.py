@@ -13,7 +13,7 @@ class EnemyPlayer(BasePlayer, Element):
             [' ',' ','v',' ',' ']
         ])
         #Amo.nextFrame
-        self.life = 100
+        self.life = 1
         self.targetDirectionX: int # Determines the x-direction of the main player from enemy
         self.mainPlayerDir: str = "middle"# "left" or "right" or "middle" direction of the main player from enemy
         self.moveSpeed: int
@@ -25,8 +25,7 @@ class EnemyPlayer(BasePlayer, Element):
         self.randomCoolDown: float = self.randomizer.uniform(1.5, 5.0) # randomizes the cooldown each movement of the enemy
 
 
-    def decrementLife(self):
-        self.life = self.life - 1
+    
     def getType():
         return 'Enemy'
     def fullName(self, separator=' '):
@@ -72,7 +71,7 @@ class EnemyPlayer(BasePlayer, Element):
 
 class Enemy03(BasePlayer, AnimationFrame):
     life = 1
-    alive = True
+    
     _current_frame = None
 
     def __init__(self, fName='', lName=''):
@@ -93,14 +92,7 @@ class Enemy03(BasePlayer, AnimationFrame):
                     self.setState(0)
                 except Exception:
                     pass
-
-    def decrementLife(self):
-        self.life = self.life - 1
-        if self.life <= 0:
-            self.alive = False
-
-    def is_alive(self):
-        return getattr(self, 'alive', True)
+    
 
     def getType(self):
         return 'Enemy03'
@@ -130,7 +122,7 @@ class Enemy03(BasePlayer, AnimationFrame):
                 self._current_frame = self.peekAnimationFrame()
         return (self._position[0], self._position[1], self._current_frame if self._current_frame is not None else [[]])
 
-    def get_hit_coords(self):
+    def getCoveredCoords(self):
         pixels = self._current_frame
         if pixels is None:
             if hasattr(self, 'peekAnimationFrame'):
@@ -189,7 +181,7 @@ class DescendingEnemy(BasePlayer):
             return super().getFrame()
         return (self._position[0], self._position[1], pixels)
 
-    def get_hit_coords(self):
+    def getCoveredCoords(self):
         pixels = getattr(self, '_Element__pixels', None)
         if pixels is None:
             f = super().getFrame()

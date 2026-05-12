@@ -1,5 +1,5 @@
+from typing import Self
 from abc import abstractmethod
-
 from src.utils import clear_console, goto_xy, TimeClass
 from src.components.element import Element
 from src.components.animation_frame import AnimationFrame
@@ -15,11 +15,15 @@ class BasePlayer(Element):
         self.first_name = fName
         self.last_name = lName
         self._avatar = '[A]'
-        self.amos = []
+        self.amos = list[Amo]()
         self.life = 1
+        self.alive = True
 
     def __secret(self): 
         return f'{self.age}{self.first_name[0]}'
+    
+    def is_alive(self):
+        return self.alive
     
     @abstractmethod
     def getType():
@@ -37,6 +41,7 @@ class BasePlayer(Element):
         for amo in self.amos:
             amo.drawElement(screen)
 
+    
     def nextFrame(self, screen):
         for amo in self.amos:
             amo.nextFrame(screen, 0, -1)
@@ -45,8 +50,25 @@ class BasePlayer(Element):
         goto_xy(self._position)
         print(self._avatar, end='')
 
+    def decrementLife(self):
+        self.life = self.life - 1
+        if self.life <= 0:
+            self.alive = False
+        
     def setRemainingLife(self, life: int):
         self.life = life
+
+    def checkIfColliding(self, counterPlayers: list[Self]):
+        collide = False
+        for player in counterPlayers:
+            collide = collide or self.isColliding(player.getCoveredCoords())
+            for amo in player.amos:
+                collide = collide or self.isColliding(amo.getCoveredCoords())
+        if (collide):
+            self.decrementLife()
+        return collide
+
+    
 
 
 

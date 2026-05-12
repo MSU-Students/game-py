@@ -29,3 +29,17 @@ class Element(ABC):
     @abstractmethod
     def nextFrame(self, screen):
         pass
+
+    def getCoveredCoords(self):
+        x, y, pixels = self.getFrame()
+        coords = set[tuple[int, int]]()
+        for ry, row in enumerate(pixels):
+            for rx, ch in enumerate(row):
+                if ch != ' ' :
+                    coords.add((x + rx, y + ry))
+        return coords
+    def isColliding(self, refCoords: set[tuple[int, int]]):
+        coords = self.getCoveredCoords()
+        intersection = coords.intersection(refCoords)
+        return intersection.__len__() > 0
+        

@@ -43,7 +43,7 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
         #     EnemyPlayer('Goku', 'YellowHair')
         # ]
         self.listener = keyboard.Listener(on_press=self.onPress)
-
+    # TODO: move to waves
     def spawn_enemy(self):
         """Create and position a new Enemy03 at the top-center of the screen."""
         e = Enemy03('Waving', 'Enemy')
@@ -93,24 +93,23 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
             self.pauseMessage = f'Something went wrong: {e}'
             self.paused = True
 
+    def beforeNextFrame(self):
+        self.checkCollisions()
+    
+    def afterNextFrame(self):
+        self.eliminateDeads()
+    
     def play(self):
         self.listener.start()
         
         self.welcomeScreen()
-
         userName = self.profileInput()
-        
         
         self.loadMainPlayer(userName)
         self.loadEnemies()
         
-        width, _height = self.screen.getDimension()
-        # place the descending enemy at top center
-        if len(self.enemies) > 0:
-            self.enemies[0].setPosition((int(width / 2), 1))
-        
         self.loadingScreen() 
-        # Start Getting Input and Updating the Screen
+        
         self.startGame()
 
         self.exitGame()
