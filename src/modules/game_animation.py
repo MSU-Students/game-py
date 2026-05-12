@@ -1,6 +1,6 @@
-from utils import sleep, goto_xy
-from screen import Screen
-from player import AirPlane
+from src.utils import sleep, goto_xy
+from src.core.screen import Screen
+from src.components.player import AirPlane
 from pynput import keyboard
 class GameAnimation:
     screen: Screen

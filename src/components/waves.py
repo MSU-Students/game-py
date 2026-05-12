@@ -1,13 +1,14 @@
-import game_levels
-from player import EnemyPlayer
-from screen import Screen
+import src.modules.game_levels as game_levels
+from src.components.enemy_player import EnemyPlayer
+from src.core.screen import Screen
 
 # Waves.py is all about waves and anything that relates to it such as enemy number, etc.
 
 WAVEONE, WAVETWO, WAVETHREE, WAVEFOUR, WAVEFIVE = 1, 2, 3, 4, 5
 class Waves:
-    screen = Screen()
-    def __init__(self):
+    screen:Screen
+    def __init__(self, gameScreen:Screen):
+        self.screen = gameScreen
         self.enemy: EnemyPlayer
         self.enemies: list[EnemyPlayer] = []
         self.distancer: int # This is the distance between enemies once the game started
