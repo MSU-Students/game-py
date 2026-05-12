@@ -14,14 +14,11 @@ class EnemyPlayer(BasePlayer, Element):
             [' ',' ','v',' ',' ']
         ])
         #Amo.nextFrame
-        self.life = 1
         self.targetDirectionX: int # Determines the x-direction of the main player from enemy
         self.mainPlayerDir: str = "middle"# "left" or "right" or "middle" direction of the main player from enemy
-        self.moveSpeed: int
         self.allowEnemyFire: bool = True # Allows enemy firing, this is to ensure that it doesn't fire endlessly
         self.enemyTimer = TimeClass()
         self._avatar = '[*]'
-        self.moveSpeed = 1 # The movement speed of the enemy by default
         self.randomizer = random.Random()
         self.randomCoolDown: float = self.randomizer.uniform(1.5, 5.0) # randomizes the cooldown each movement of the enemy
     

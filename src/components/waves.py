@@ -74,13 +74,13 @@ class Waves:
                     self.count = enemy - 19
                     self.enemies[enemy].setPosition((int(self.distancer * self.count) - 2, 10))    
 
-    def setEnemiesRemainingLife(self, life: int):
-        for enemy in self.enemies:
-            enemy.setRemainingLife(life)
+    def setEnemiesStatus(self, life: int, moveSpeed: int):
+        for enemy in range(len(self.enemies)):
+            self.enemies[enemy].setRemainingLife(life)
+            self.enemies[enemy].setMoveSpeed(moveSpeed)
                 
     def waveSpawnEnemiesOnEasy(self):
         """Creates a number of enemies according to the current wave and easy difficulty"""
-        self.setEnemiesRemainingLife(3)
         if self.currentWave == WAVEONE:
             self.loadEnemyPos(5)
         elif self.currentWave == WAVETWO:
@@ -91,10 +91,11 @@ class Waves:
             self.loadEnemyPos(15)
         elif self.currentWave == WAVEFIVE:
             self.loadEnemyPos(10)
+        self.setEnemiesStatus(3, 1)
+
     
     def waveSpawnEnemiesOnModerate(self):
         """Creates a number of enemies according to the current wave and moderate difficulty"""
-        self.setEnemiesRemainingLife(5)
         if self.currentWave == WAVEONE:
             self.loadEnemyPos(10)
         elif self.currentWave == WAVETWO:
@@ -105,9 +106,9 @@ class Waves:
             self.loadEnemyPos(18)
         elif self.currentWave == WAVEFIVE:
             self.loadEnemyPos(20)
+        self.setEnemiesStatus(5, 1)
 
     def waveSpawnEnemiesOnHard(self):
-        self.setEnemiesRemainingLife(8)
         """Creates a number of enemies according to the current wave and hard difficulty"""
         if self.currentWave == WAVEONE:
             self.loadEnemyPos(20)
@@ -119,6 +120,7 @@ class Waves:
             self.loadEnemyPos(30)
         elif self.currentWave == WAVEFIVE:
             self.loadEnemyPos(25)
+        self.setEnemiesStatus(8, 2)
 
 
     def nextWave(self): # After all enemies are unalived, proceed to the next wave

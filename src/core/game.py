@@ -28,6 +28,7 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
         self.waves.spawn_enemy()
         self.enemies = self.waves.enemies
         self.listener = keyboard.Listener(on_press=self.onPress)
+        
     
 
     # called every start of iteration

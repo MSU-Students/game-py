@@ -20,6 +20,7 @@ class BasePlayer(Element):
         self.life = 1
         self.alive = True
         self.kill = 0
+        self.moveSpeed = 1
 
     def __secret(self): 
         return f'{self.age}{self.first_name[0]}'
@@ -63,6 +64,9 @@ class BasePlayer(Element):
         
     def setRemainingLife(self, life: int):
         self.life = life
+    
+    def setMoveSpeed(self, moveSpeed: int):
+        self.moveSpeed = moveSpeed
 
     def checkIfColliding(self, counterPlayers: list[Self]):
         for player in counterPlayers:
