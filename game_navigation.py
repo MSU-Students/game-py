@@ -1,6 +1,7 @@
 from utils import sleep, goto_xy
 from screen import Screen
-from player import AirPlane, EnemyPlayer
+from enemy_player import EnemyPlayer
+from player import AirPlane
 from pynput import keyboard
 import game_levels
 from waves import Waves
@@ -9,7 +10,7 @@ class GameNavigation:
     mainPlayer: AirPlane
     enemies: list[EnemyPlayer]
     listener: keyboard.Listener
-    wave: Waves
+    waves: Waves
     paused: bool
     pauseMessage: str
     def __init__(self):

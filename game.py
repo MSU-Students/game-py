@@ -1,9 +1,7 @@
 from pynput import keyboard
 from player import AirPlane
-try:
-    from enemyplayer import EnemyPlayer, Enemy03
-except ModuleNotFoundError:
-    from EnemyPlayer import EnemyPlayer, Enemy03
+
+from enemy_player import Enemy03
 from screen import Screen
 from utils import sleep
 from game_navigation import GameNavigation
@@ -20,16 +18,16 @@ class InvalidFirstNameError(Exception):
 
 class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
     screen = Screen()
-    wave = Waves()
     __index = 0 # step 1
     def __init__(self, firstName:str, lastName):
         super().__init__()
+        self.waves = Waves(self.screen)
         if firstName == '':
             raise InvalidFirstNameError()
         elif firstName.isdigit():
             raise InvalidFirstNameError('Number Name')
         self.mainPlayer = AirPlane(firstName, lastName)
-        self.enemies = self.wave.enemies
+        self.enemies = self.waves.enemies
         # spawn initial enemy
         try:
             self.spawn_enemy()
