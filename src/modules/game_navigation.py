@@ -81,12 +81,13 @@ class GameNavigation(ABC):
                     self.screen.drawStringAt(0, 10, f'Something went wrong: {self.pauseMessage}')
             else:
                 self.beforeNextFrame()
-                # Draw by Iterating to each person in the game, refer to iterator function at game.py
-                person : BasePlayer   
-                for person in self:
-                    person.drawElement(self.screen)
-                    person.nextFrame(self.screen)
-                
+                self.mainPlayer.drawElement(self.screen)
+                self.mainPlayer.nextFrame(self.screen)
+                player : BasePlayer   
+                for player in self.enemies:
+                    player.drawElement(self.screen)
+                    player.nextFrame(self.screen)
+                    
                 self.afterNextFrame()
             
             self.displayLife()

@@ -23,8 +23,6 @@ class EnemyPlayer(BasePlayer, Element):
         self.moveSpeed = 1 # The movement speed of the enemy by default
         self.randomizer = random.Random()
         self.randomCoolDown: float = self.randomizer.uniform(1.5, 5.0) # randomizes the cooldown each movement of the enemy
-
-
     
     def getType():
         return 'Enemy'
@@ -35,6 +33,7 @@ class EnemyPlayer(BasePlayer, Element):
     def nextFrame(self, screen):
         for amo in self.amos:
             amo.nextFrame(screen, 0, 1)
+            
     def moveEnemy(self, mainPlayerPosX: int): # Moves enemy when called
         self.enemyTimer.timeCheck()
         self.enemyTimer.startTimer(self.randomCoolDown)
@@ -122,20 +121,6 @@ class Enemy03(BasePlayer, AnimationFrame):
                 self._current_frame = self.peekAnimationFrame()
         return (self._position[0], self._position[1], self._current_frame if self._current_frame is not None else [[]])
 
-    def getCoveredCoords(self):
-        pixels = self._current_frame
-        if pixels is None:
-            if hasattr(self, 'peekAnimationFrame'):
-                pixels = self.peekAnimationFrame()
-        if not pixels:
-            return set()
-        x, y = self._position
-        coords = set()
-        for ry, row in enumerate(pixels):
-            for rx, ch in enumerate(row):
-                if ch != ' ':
-                    coords.add((x + rx, y + ry))
-        return coords
 
 
 class DescendingEnemy(BasePlayer):
@@ -180,19 +165,4 @@ class DescendingEnemy(BasePlayer):
         if pixels is None:
             return super().getFrame()
         return (self._position[0], self._position[1], pixels)
-
-    def getCoveredCoords(self):
-        pixels = getattr(self, '_Element__pixels', None)
-        if pixels is None:
-            f = super().getFrame()
-            if not f:
-                return set()
-            x, y, pixels = f
-        x, y = self._position
-        coords = set()
-        for ry, row in enumerate(pixels):
-            for rx, ch in enumerate(row):
-                if ch != ' ':
-                    coords.add((x + rx, y + ry))
-        return coords
 

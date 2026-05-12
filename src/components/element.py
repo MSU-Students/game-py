@@ -38,6 +38,7 @@ class Element(ABC):
                 if ch != ' ' :
                     coords.add((x + rx, y + ry))
         return coords
+    
     def isColliding(self, refCoords: set[tuple[int, int]]):
         coords = self.getCoveredCoords()
         intersection = coords.intersection(refCoords)

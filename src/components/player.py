@@ -1,6 +1,7 @@
 from typing import Self
 from abc import abstractmethod
-from src.utils import clear_console, goto_xy, TimeClass
+from src.core.screen import Screen
+from src.utils import goto_xy, TimeClass
 from src.components.element import Element
 from src.components.animation_frame import AnimationFrame
 from src.components.amo import Amo
@@ -42,7 +43,7 @@ class BasePlayer(Element):
             amo.drawElement(screen)
 
     
-    def nextFrame(self, screen):
+    def nextFrame(self, screen: Screen):
         for amo in self.amos:
             amo.nextFrame(screen, 0, -1)
 
@@ -50,6 +51,10 @@ class BasePlayer(Element):
         goto_xy(self._position)
         print(self._avatar, end='')
 
+    def incrementKill(self, enemy: Self):
+        self.kill = self.kill + 1
+        enemy.decrementLife()
+        
     def decrementLife(self):
         self.life = self.life - 1
         if self.life <= 0:
@@ -59,14 +64,17 @@ class BasePlayer(Element):
         self.life = life
 
     def checkIfColliding(self, counterPlayers: list[Self]):
-        collide = False
         for player in counterPlayers:
-            collide = collide or self.isColliding(player.getCoveredCoords())
+            collide =  self.isColliding(player.getCoveredCoords())
+            if (collide):
+                self.decrementLife()
+                player.decrementLife()
+                return True
             for amo in player.amos:
-                collide = collide or self.isColliding(amo.getCoveredCoords())
-        if (collide):
-            self.decrementLife()
-        return collide
+                collide = self.isColliding(amo.getCoveredCoords())
+                if (collide):
+                    player.incrementKill(self)
+        return False
 
     
 
@@ -79,10 +87,6 @@ GOING_RIGHT = 1
 GOING_UP = 2
 GOING_DOWN = 3
 
-
-
-# Enemy03 moved to enemyplayer.py
-
 class AirPlane(BasePlayer, AnimationFrame):
     kill = 0
     state = STEADY
@@ -90,14 +94,7 @@ class AirPlane(BasePlayer, AnimationFrame):
         super().__init__(fName, lName)
         self._avatar = '[8]'
         self.loadAnimation('./animations/plane.txt')
-    def incrementKill(self, enemy: 'EnemyPlayer'):
-        self.kill = self.kill + 1
-        enemy.decrementLife()
-        if hasattr(enemy, 'is_alive') and not enemy.is_alive():
-            try:
-                self.amos = [a for a in self.amos if getattr(a, 'alive', True)]
-            except:
-                pass
+    
     def getType():
         return 'Main'
     def fullName(self, separator=' '):
@@ -105,7 +102,6 @@ class AirPlane(BasePlayer, AnimationFrame):
     def glideRight(self):
         self.state = GOING_RIGHT
         self.setState(GOING_RIGHT)
-        
     def glideLeft(self):
         self.state = GOING_LEFT
         self.setState(GOING_LEFT)
@@ -115,22 +111,32 @@ class AirPlane(BasePlayer, AnimationFrame):
     def goDown(self):
         self.state = GOING_DOWN
         self.setState(GOING_DOWN)
+        
     def getFrame(self):
         if (self.state == STEADY):
             return super().getFrame()
         else:
-            frame = self.getAnimationFrame()
+            frame = self.peekAnimationFrame()
             if (frame == False):
                 self.state = STEADY
                 return super().getFrame()
             else:
-                if (self.state == GOING_RIGHT):
-                    self.movePosition((1, 0))
-                elif (self.state == GOING_LEFT):
-                    self.movePosition((-1, 0))
-                elif (self.state == GOING_UP):
-                    self.movePosition((0, -1))
-                elif (self.state == GOING_DOWN):
-                    self.movePosition((0, 1))
                 return (self._position[0], self._position[1], frame)
+            
+    def nextFrame(self, screen: Screen):
+        self.getAnimationFrame()
+        super().nextFrame(screen)
+        if (self.state == GOING_RIGHT):
+            screen.drawStringAt(20, 0, 'GOING RIGHT')
+            self.movePosition((1, 0))
+        elif (self.state == GOING_LEFT):
+            screen.drawStringAt(20, 0, 'GOING LEFT')
+            self.movePosition((-1, 0))
+        elif (self.state == GOING_UP):
+            screen.drawStringAt(20, 0, 'GOING UP')
+            self.movePosition((0, -1))
+        elif (self.state == GOING_DOWN):
+            screen.drawStringAt(20, 0, 'GOING DOWN')
+            self.movePosition((0, 1))
+        
             
