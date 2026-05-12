@@ -1,9 +1,9 @@
 from abc import abstractmethod
-from utils import clear_console, goto_xy, TimeClass
-from element import Element
-from animation_frame import AnimationFrame
-from amo import Amo
-import random
+
+from src.utils import clear_console, goto_xy, TimeClass
+from src.components.element import Element
+from src.components.animation_frame import AnimationFrame
+from src.components.amo import Amo
 class BasePlayer(Element):
     # Constructor
     def __init__(self, fName = '', lName = ''):

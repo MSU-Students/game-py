@@ -1,5 +1,5 @@
-from player import BasePlayer
-from element import Element
+from src.components.player import BasePlayer
+from src.components.element import Element
 
 class DescendingEnemy(BasePlayer):
     life = 1

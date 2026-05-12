@@ -1,5 +1,6 @@
-from element import Element
-from screen import Screen
+from src.components.element import Element
+from src.core.screen import Screen
+
 class Amo(Element):
     def __init__(self, position:tuple):
         super().__init__([['*']])

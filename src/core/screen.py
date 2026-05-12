@@ -1,4 +1,4 @@
-from utils import clear_console, goto_xy
+from src.utils import clear_console, goto_xy
 import numpy as np
 class Screen:
     __width = 80
