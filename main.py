@@ -1,7 +1,6 @@
-from game import Game
+from src.core.game import Game
 
-myGame = Game('Luffy', 'Hat')
-
+myGame = Game()
 
 myGame.play()
     

@@ -1,8 +1,8 @@
 #pts per enemy
 
-from screen import Screen
-from player import AirPlane, EnemyPlayer
-import game_levels
+from src.core.screen import Screen
+from src.components.player import AirPlane, EnemyPlayer
+import src.modules.game_levels as game_levels
 
 points_enemy01 = 100
 points_enemy02 = 150

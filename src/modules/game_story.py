@@ -1,9 +1,10 @@
-from utils import sleep, goto_xy
-from screen import Screen
-from player import AirPlane
-from enemy_player import EnemyPlayer
 from pynput import keyboard
-from waves import Waves
+from src.utils import sleep, goto_xy
+from src.core.screen import Screen
+from src.components.player import AirPlane
+from src.components.enemy_player import EnemyPlayer
+from src.components.waves import Waves
+
 class GameStory:
     screen: Screen
     mainPlayer: AirPlane

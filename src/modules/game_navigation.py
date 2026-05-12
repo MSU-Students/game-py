@@ -1,10 +1,12 @@
-from utils import sleep, goto_xy
-from screen import Screen
-from enemy_player import EnemyPlayer
-from player import AirPlane
 from pynput import keyboard
-import game_levels
-from waves import Waves
+
+from src.utils import sleep, goto_xy
+from src.core.screen import Screen
+from src.components.enemy_player import EnemyPlayer
+from src.components.player import AirPlane, BasePlayer
+import src.modules.game_levels as game_levels
+from src.components.waves import Waves
+
 class GameNavigation:
     screen: Screen
     mainPlayer: AirPlane
@@ -40,14 +42,26 @@ class GameNavigation:
         sleep(3)
         return user
     
-    
     def loadingScreen(self):
         self.resetScreen()
-        self.blinkText(self.screen, "READY?", 10, 5, 3)
+        self.blinkText("READY?", 10, 5, 3)
         self.screen.drawStringAt(33, 17, 'Get ready...')
         self.screen.printScreen()
         sleep(1)
  
+    def blinkText(self, text = "READY?", x=10, y=5, times=3):
+        for i in range(times):
+            #show the text
+            self.screen.clearScreen()
+            self.screen.drawFrame();
+            self.screen.drawStringAt(x, y, text)
+            self.screen.printScreen()
+            sleep(0.5)
+            #hide the text
+            self.screen.clearScreen()
+            self.screen.drawFrame();
+            self.screen.printScreen()
+            sleep(0.5)
 
 
     def startGame(self):
@@ -59,15 +73,14 @@ class GameNavigation:
                 if (self.pauseMessage != ''):
                     self.screen.drawStringAt(0, 10, f'Something went wrong: {self.pauseMessage}')
             else:
-                self.mainPlayer.drawElement(self.screen)
-                for enemy in self.enemies:
-                    enemy.drawElement(self.screen)
-                    enemy.moveEnemy(self.mainPlayer._position[0])
-                    enemy.nextFrame(self.screen)
+                # Draw by Iterating to each person in the game, refer to iterator function at game.py
+                person : BasePlayer   
+                for person in self:
+                    person.drawElement(self.screen)
+                    person.nextFrame(self.screen)
             
-                # print(self.enemies[0].enemyTimer.targetTime, '       ', self.enemies[2].enemyTimer.targetTime)
-                self.displayLife()
-                self.displayDifficulty(1)
+            self.displayLife()
+            self.displayDifficulty(1)
             self.screen.printScreen()
             sleep(0.1)
                 

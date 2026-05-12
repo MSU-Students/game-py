@@ -1,9 +1,8 @@
-from random import random
-
-from animation_frame import AnimationFrame
-from player import BasePlayer, STEADY, GOING_LEFT, GOING_RIGHT
-from element import Element
-from utils import TimeClass
+import random
+from src.components.animation_frame import AnimationFrame
+from src.components.player import BasePlayer, STEADY, GOING_LEFT, GOING_RIGHT
+from src.components.element import Element
+from src.utils import TimeClass
 
 class EnemyPlayer(BasePlayer, Element):
     def __init__(self, fName='', lName=''):
@@ -23,7 +22,7 @@ class EnemyPlayer(BasePlayer, Element):
         self._avatar = '[*]'
         self.moveSpeed = 1 # The movement speed of the enemy by default
         self.randomizer = random.Random()
-        self.randomCooldown: float = self.randomizer.uniform(1.5, 5.0) # randomizes the cooldown each movement of the enemy
+        self.randomCoolDown: float = self.randomizer.uniform(1.5, 5.0) # randomizes the cooldown each movement of the enemy
 
 
     def decrementLife(self):
@@ -39,13 +38,13 @@ class EnemyPlayer(BasePlayer, Element):
             amo.nextFrame(screen, 0, 1)
     def moveEnemy(self, mainPlayerPosX: int): # Moves enemy when called
         self.enemyTimer.timeCheck()
-        self.enemyTimer.startTimer(self.randomCooldown)
+        self.enemyTimer.startTimer(self.randomCoolDown)
         self.enemyTimer.timerFinished()
         self.targetDirectionX = mainPlayerPosX - self._position[0] # Determines the x-direction of the player
         
         #Determines the direction of the main Player every once in a while
         if self.enemyTimer.currentTime >= self.enemyTimer.targetTime - 0.5 and self.enemyTimer.currentTime <= self.enemyTimer.targetTime:
-            self.randomCooldown: float = self.randomizer.uniform(1.5, 5.0)
+            self.randomCoolDown: float = self.randomizer.uniform(1.5, 5.0)
             if self.targetDirectionX < 0: 
                 self.mainPlayerDir = "left"
             elif self.targetDirectionX > 0: 

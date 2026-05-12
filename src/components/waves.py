@@ -1,6 +1,6 @@
-import game_levels
-from enemy_player import EnemyPlayer
-from screen import Screen
+import src.modules.game_levels as game_levels
+from src.components.enemy_player import EnemyPlayer
+from src.core.screen import Screen
 
 # Waves.py is all about waves and anything that relates to it such as enemy number, etc.
 
