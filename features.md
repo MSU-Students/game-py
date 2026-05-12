@@ -20,4 +20,10 @@ Object
 - Play
 - Choose Level (Easy, Moderate, Hard)
 - Main Player goes to bottom center
+*** Easy
+- 1 enemy goes to center top facing down 
+*** Moderate
+- 3 enemies line ups at the top facing down
+*** Hard
+- 1 big enemy with 100 lives position at top center facing down
 - Exit

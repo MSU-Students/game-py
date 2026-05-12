@@ -1,8 +1,9 @@
 from abc import abstractmethod
-from utils import clear_console, goto_xy
+from utils import clear_console, goto_xy, TimeClass
 from element import Element
 from animation_frame import AnimationFrame
 from amo import Amo
+import random
 class BasePlayer(Element):
     # Constructor
     def __init__(self, fName = '', lName = ''):
@@ -38,7 +39,7 @@ class BasePlayer(Element):
 
     def nextFrame(self, screen):
         for amo in self.amos:
-            amo.nextFrame(screen)
+            amo.nextFrame(screen, 0, -1)
 
     def display(self):
         goto_xy(self._position)
@@ -47,7 +48,6 @@ class BasePlayer(Element):
     def setRemainingLife(self, life: int):
         self.life = life
 
-# EnemyPlayer moved to enemyplayer.py
 
 
 #AirPlaneStates

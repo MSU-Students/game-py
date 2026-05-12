@@ -11,6 +11,7 @@ from game_story import GameStory
 from game_animation import GameAnimation
 from game_levels import GameLevels
 from game_profile import GameProfile
+from waves import Waves
 class InvalidFirstNameError(Exception):
     message = 'No First name provided'
     def __init__(self, msg:str = ''):
@@ -19,14 +20,16 @@ class InvalidFirstNameError(Exception):
 
 class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
     screen = Screen()
+    wave = Waves()
     __index = 0 # step 1
     def __init__(self, firstName:str, lastName):
+        super().__init__()
         if firstName == '':
             raise InvalidFirstNameError()
         elif firstName.isdigit():
             raise InvalidFirstNameError('Number Name')
         self.mainPlayer = AirPlane(firstName, lastName)
-        self.enemies = []
+        self.enemies = self.wave.enemies
         # spawn initial enemy
         try:
             self.spawn_enemy()
@@ -37,6 +40,12 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
                 self.enemies.append(e)
             except Exception:
                 pass
+        
+        # self.enemies = [
+        #     EnemyPlayer('Black', 'Bird'),
+        #     EnemyPlayer('Enel', 'God'),
+        #     EnemyPlayer('Goku', 'YellowHair')
+        # ]
         self.listener = keyboard.Listener(on_press=self.onPress)
 
     def spawn_enemy(self):
@@ -64,8 +73,12 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
             return self.enemies[self.__index - 2]
         else:
             raise StopIteration #step 4
-    def onPress(self, key):
+    def onPress(self, key:keyboard.KeyCode):
         try:
+            if hasattr(key, 'char') and key.char is not None and key.char.lower() == 'p':
+                self.paused = not self.paused
+            if (self.paused): 
+                return 
             if key == keyboard.Key.up:
                 self.mainPlayer.goUp()
             elif key == keyboard.Key.down:
@@ -78,16 +91,23 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
                 self.mainPlayer.fire()
             elif key == keyboard.Key.esc:
                 self.listener.stop()
-        except:
-            print('Something went wrong')
+        except Exception as e:
+            self.pauseMessage = f'Something went wrong: {e}'
+            self.paused = True
+
     def play(self):
         self.listener.start()
         
         self.welcomeScreen()
+
         userName = self.profileInput()
         
-        # self.mainPlayer.drawElement(self.screen)
+        
+        
+        #self.mainPlayer.drawElement(self.screen)
         self.loadMainPlayer(userName)
+        self.loadEnemies()
+        #self.enemies[0].setPosition((30, 10))
 
         width, height = self.screen.getDimension()
         # place the descending enemy at top center
@@ -97,11 +117,36 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
         # self.enemies[0].drawElement(self.screen)
         # self.screen.printScreen()
 
-        # Start Getting Input
         
+        #self.enemies[0].drawElement(self.screen)
+        #self.screen.printScreen()
+
+        self.loadingScreen() #will loads the game before it strts
+
+
+
+
+        # Start Getting Input and Updating the Screen
         self.startGame()
 
         self.exitGame()
+
+    def blinkText(self, screen, text = "READY?", x=10, y=5, times=3):
+        for i in range(times):
+            #show the text
+            screen.clearScreen()
+            self.screen.drawFrame();
+            screen.drawStringAt(x, y, text)
+            screen.printScreen()
+            sleep(0.5)
+
+            #hide the text
+            screen.clearScreen()
+            screen.printScreen()
+            sleep(0.5)
+
+
+
 
 
         
