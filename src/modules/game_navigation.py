@@ -113,10 +113,10 @@ class GameNavigation(ABC):
         pass
     
     def displayNextWave(self): # After all enemies are unalived, display the next wave.
+        self.timeClass.timeCheck()
         if len(self.enemies) == 0 and self.allowDisplayNextWave == False:
             self.allowDisplayNextWave = True
         if self.allowDisplayNextWave == True:
-            self.timeClass.timeCheck()
             self.timeClass.startTimer(3.0)
             self.timeClass.timerFinished()
             if self.timeClass.timerFinished() != True:
@@ -143,7 +143,8 @@ class GameNavigation(ABC):
                 self.afterNextFrame()
 
             if (self.waves.waveChanged == True): # After a wave is complete, configure another wave of enemies.
-                self.gameLevels.setupGame(self)            
+                if (self.timeClass.timerFinished() == True): # References of self.timeClass methods are in the displayNextWave().
+                    self.gameLevels.setupGame(self)            
 
             self.displayLife()
             self.displayDifficulty(1)

@@ -100,6 +100,7 @@ class Waves:
             self.waveChanged = False
 
 
+
     def spawn_enemy(self):
         spawnEnemies = list(filter(lambda enemy: isinstance(enemy, Enemy03), self.enemies))
         if (spawnEnemies.__len__() > 0):
