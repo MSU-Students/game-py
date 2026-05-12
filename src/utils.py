@@ -15,11 +15,11 @@ def sleep(delay = 1):
 
 class TimeClass:
     #This class is used for all about time, such as cooldown duration, etc.
-    beginningTime = time.time()
-    startTime: float
-    currentTIme: float
-    targetTime: float
-    startTimerCalling: bool = False
+    # beginningTime = time.time()
+    # startTime: float
+    # currentTIme: float
+    # targetTime: float
+    # startTimerCalling: bool = False
     def __init__(self):
         self.beginningTime = time.time() # The starting time
         self.startTime: float # Is the time when the startTimer() is called

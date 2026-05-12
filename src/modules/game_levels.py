@@ -3,6 +3,7 @@ from src.utils import sleep, goto_xy
 from src.core.screen import Screen
 from src.components.player import AirPlane
 from pynput import keyboard
+from src.components.waves import Waves
 
 EASY, MODERATE, HARD = 1, 2, 3
 currentDifficulty = EASY # Default difficulty is easy, will be changed once the user inputs other difficulty
@@ -12,11 +13,12 @@ class GameLevels:
     mainPlayer: AirPlane
     enemies: list[EnemyPlayer]
     listener: keyboard.Listener
+    waves: Waves
 
     def setupGame(self):
         if (currentDifficulty == EASY):
             self.mainPlayer.setRemainingLife(10)
-            pass
+            self.waves.waveSpawnEnemiesOnEasy()
         elif (currentDifficulty == MODERATE):
             pass
         elif (currentDifficulty == HARD):

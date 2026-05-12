@@ -23,11 +23,10 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
     def __init__(self):
         super().__init__()
         self.waves = Waves(self.screen)
-        
+        self.gameLevels = GameLevels
         self.mainPlayer = AirPlane()
         self.waves.spawn_enemy()
         self.enemies = self.waves.enemies
-        
         self.listener = keyboard.Listener(on_press=self.onPress)
     
 
@@ -84,8 +83,8 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
         userName = self.profileInput()
         self.chooseDifficulty()
         
+        self.setupGame()
         self.loadMainPlayer(userName)
-        self.loadEnemies()
         
         self.loadingScreen() 
         
