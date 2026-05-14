@@ -19,7 +19,7 @@ class GameNavigation(ABC):
         self.paused = False
         self.pauseMessage = ''
     def welcomeScreen(self):
-        self.screen.drawStringAt(3, 10, 'Welcome to GAME PY')
+        self.screen.drawStringAt(31, 17, 'Welcome to GAME PY')
         self.screen.printScreen()
         sleep(3)
 
@@ -32,24 +32,24 @@ class GameNavigation(ABC):
 
     def profileInput(self):
         self.resetScreen()
-        self.screen.drawStringAt(3, 10, 'Enter Your Name:')
+        self.screen.drawStringAt(32, 17, 'Enter Your Name:')
         self.screen.printScreen()
-        goto_xy((3, 12))
+        goto_xy((33, 19))
         user = input()
         self.resetScreen()
-        self.screen.drawStringAt(3, 10, 'Welcome ' + user)
+        self.screen.drawStringAt(33, 17, 'Welcome ' + user)
         self.screen.printScreen()
         sleep(3)
         return user
     
     def loadingScreen(self):
         self.resetScreen()
-        self.blinkText("READY?", 10, 5, 3)
-        self.screen.drawStringAt(33, 17, 'Get ready...')
+        self.blinkText("READY?", 37, 17, 3)
+        self.screen.drawStringAt(34, 17, 'Get ready...')
         self.screen.printScreen()
         sleep(1)
  
-    def blinkText(self, text = "READY?", x=10, y=5, times=3):
+    def blinkText(self, text = "READY?", x=37, y=17, times=3):
         for i in range(times):
             #show the text
             self.screen.clearScreen()
@@ -76,9 +76,9 @@ class GameNavigation(ABC):
             self.screen.clearScreen()
             self.screen.drawFrame()
             if self.paused:
-                self.screen.drawStringAt(10, 5, 'PAUSED - Press P')
+                self.screen.drawStringAt(32, 17, 'PAUSED - Press P')
                 if (self.pauseMessage != ''):
-                    self.screen.drawStringAt(0, 10, f'Something went wrong: {self.pauseMessage}')
+                    self.screen.drawStringAt(32, 19, f'Something went wrong: {self.pauseMessage}')
             else:
                 self.beforeNextFrame()
                 player : BasePlayer   
@@ -97,7 +97,7 @@ class GameNavigation(ABC):
 
     def exitGame(self):
         self.screen.drawFrame()
-        self.screen.drawStringAt(10, 4, 'Good Bye, from GAME PY')
+        self.screen.drawStringAt(29, 17, 'Good Bye, from GAME PY')
         self.screen.printScreen()
     
 
