@@ -82,6 +82,7 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
         
         self.welcomeScreen()
         userName = self.profileInput()
+        self.chooseDifficulty()
         
         self.loadMainPlayer(userName)
         self.loadEnemies()

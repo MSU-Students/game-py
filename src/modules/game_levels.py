@@ -5,6 +5,7 @@ from src.components.player import AirPlane
 from pynput import keyboard
 
 EASY, MODERATE, HARD = 1, 2, 3
+currentDifficulty = EASY # Default difficulty is easy, will be changed once the user inputs other difficulty
 # Point System and Game Mechanics
 class GameLevels:
     screen: Screen
@@ -12,13 +13,13 @@ class GameLevels:
     enemies: list[EnemyPlayer]
     listener: keyboard.Listener
 
-    def setupGame(self, level: int):
-        if (level == EASY):
-            self.mainPlayer.setRemainingLife(5)
+    def setupGame(self):
+        if (currentDifficulty == EASY):
+            self.mainPlayer.setRemainingLife(10)
             pass
-        elif (level == MODERATE):
+        elif (currentDifficulty == MODERATE):
             pass
-        elif (level == HARD):
+        elif (currentDifficulty == HARD):
             pass
     
     def checkCollisions(self):

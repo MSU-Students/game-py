@@ -42,6 +42,42 @@ class GameNavigation(ABC):
         sleep(3)
         return user
     
+    def chooseDifficulty(self):
+        difficultyInput: str = '0' # Default value, will be changed.
+        difficultyString: str = ' ' # This will display the difficulty
+        self.resetScreen()
+        self.screen.drawStringAt(3, 10, 'Choose Difficulty (1-EASY, 2-MODERATE, 3-HARD): ')
+        self.screen.printScreen()
+        goto_xy((3, 12))
+        difficultyInput = input()
+        while difficultyInput not in ['1', '2', '3']:
+            self.resetScreen()
+            self.screen.drawStringAt(3, 10, 'Invalid input...')
+            self.screen.printScreen()
+            sleep(1)
+            self.resetScreen()
+            self.screen.drawStringAt(3, 10, 'Choose Difficulty (1-EASY, 2-MODERATE, 3-HARD): ')
+            self.screen.printScreen()
+            goto_xy((3, 12))
+            difficultyInput = input()
+            
+        # /////////////////////////////////////////////////////////////////////////////
+        if difficultyInput == '1':
+            game_levels.currentDifficulty = game_levels.EASY
+            difficultyString = 'EASY'
+        elif difficultyInput == '2':
+            game_levels.currentDifficulty = game_levels.MODERATE
+            difficultyString = 'MODERATE'
+        elif difficultyInput == '3':
+            game_levels.currentDifficulty = game_levels.HARD
+            difficultyString = 'HARD'
+        # /////////////////////////////////////////////////////////////////////////////
+
+        self.resetScreen()
+        self.screen.drawStringAt(3, 10, 'Chosen difficulty: ' + difficultyString)
+        self.screen.printScreen()
+        sleep(3)
+    
     def loadingScreen(self):
         self.resetScreen()
         self.blinkText("READY?", 10, 5, 3)
