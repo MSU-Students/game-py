@@ -11,8 +11,7 @@ class Element(ABC):
     
     def getFrame(self):
         return (self._position[0], self._position[1], self.__pixels)
-    def getPosition(self):
-        return self._position
+
     def setPosition(self, position):
         self._position = (position[0], position[1])
     def movePosition(self, coordinates:tuple): 

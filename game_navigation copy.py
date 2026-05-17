@@ -26,23 +26,15 @@ class GameNavigation:
         self.screen.printScreen()
         sleep(3)
         return user
-
+    
     def startGame(self):
-        while self.listener.running:
+        while self.listener.running:            
             self.screen.clearScreen()
             self.screen.drawFrame()
-
-            x, y = self.mainPlayer.getPosition()
-
-            if x <= 1 or x >= 70 or y <= 1 or y >= 20:
-                self.screen.drawStringAt(30, 10, 'GAME OVER')
-                self.screen.drawStringAt(23, 12, 'Press R to Try Again')
-            else:
-                self.mainPlayer.drawElement(self.screen)
-                self.mainPlayer.nextFrame(self.screen)
-
+            self.mainPlayer.drawElement(self.screen)
             self.screen.printScreen()
             sleep(0.1)
+            self.mainPlayer.nextFrame(self.screen)
 
     def exitGame(self):
         self.screen.drawFrame()

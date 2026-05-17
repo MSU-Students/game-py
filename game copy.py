@@ -42,41 +42,36 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
         else:
             raise StopIteration #step 4
     def onPress(self, key):
-         try:
-
-             if key == keyboard.Key.up:
-                 self.mainPlayer.goUp()
-
-             elif key == keyboard.Key.down:
-                 self.mainPlayer.goDown()
-
-             elif key == keyboard.Key.right:
-              self.mainPlayer.glideRight()
-
-             elif key == keyboard.Key.left:
-                 self.mainPlayer.glideLeft()
-
-        # TRY AGAIN
-             elif hasattr(key, 'char') and key.char == 'r':
-                 self.mainPlayer._position = (10, 10)
-
-             elif key == keyboard.Key.space:
-              self.mainPlayer.fire()
-
-             elif key == keyboard.Key.esc:
-                 self.listener.stop()
-
-         except:
-             print('Something went wrong')
+        try:
+            if key == keyboard.Key.up:
+                self.mainPlayer.goUp()
+            elif key == keyboard.Key.down:
+                self.mainPlayer.goDown()
+            elif key == keyboard.Key.right:
+                self.mainPlayer.glideRight()
+            elif key == keyboard.Key.left:
+                self.mainPlayer.glideLeft()
+            elif key == keyboard.Key.space:
+                self.mainPlayer.fire()
+            elif key == keyboard.Key.esc:
+                self.listener.stop()
+        except:
+            print('Something went wrong')
     def play(self):
         self.listener.start()
         
         self.welcomeScreen()
         userName = self.profileInput()
         
+        # self.mainPlayer.drawElement(self.screen)
         self.loadMainPlayer(userName)
-        self.mainPlayer._position = (10, 10)
+
         self.enemies[0].setPosition((5, 1))
+        
+        # self.enemies[0].drawElement(self.screen)
+        # self.screen.printScreen()
+
+        # Start Getting Input
         
         self.startGame()
 
