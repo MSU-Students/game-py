@@ -1,11 +1,12 @@
 import random
+from turtle import Screen
 from src.components.amo import Amo
 from src.components.animation_frame import AnimationFrame
-from src.components.player import BasePlayer, STEADY, GOING_LEFT, GOING_RIGHT
+from src.components.player import GOING_DOWN, GOING_UP, BasePlayer, STEADY, GOING_LEFT, GOING_RIGHT
 from src.components.element import Element
 from src.utils import TimeClass
 
-class EnemyPlayer(BasePlayer, Element):
+class EnemyPlayer(BasePlayer, AnimationFrame):
     def __init__(self, fName='', lName=''):
         super().__init__(fName, lName)
         Element.__init__(self, [
@@ -24,6 +25,8 @@ class EnemyPlayer(BasePlayer, Element):
         self.moveSpeed = 1 # The movement speed of the enemy by default
         self.randomizer = random.Random()
         self.randomCoolDown: float = self.randomizer.uniform(1.5, 5.0) # randomizes the cooldown each movement of the enemy
+        self.loadAnimation('./animations/enemy.txt')
+        self.state = STEADY
     
     def getType():
         return 'Enemy'
@@ -32,6 +35,8 @@ class EnemyPlayer(BasePlayer, Element):
     def fire(self):
         self.amos.append(Amo((self._position[0] + 2, self._position[1] + 1)))
     def nextFrame(self, screen):
+        
+        self.getAnimationFrame()
         for amo in self.amos:
             amo.nextFrame(screen, 0, 1)
             
@@ -60,14 +65,37 @@ class EnemyPlayer(BasePlayer, Element):
 
         #Moves the enemy according to the direction of the main Player
         if self.enemyTimer.currentTime <= self.enemyTimer.targetTime - 2:
-            if self.mainPlayerDir == "left": # If main Player is on the left of the enemy, move left
+            if self.mainPlayerDir == "left":
+
+                self.state = GOING_LEFT
+                self.setState(GOING_LEFT)
+
                 self.movePosition((-self.moveSpeed, 0))
-            elif self.mainPlayerDir == "right": # if main Player is on the right of the enemy, move right
+
+            elif self.mainPlayerDir == "right":
+
+                self.state = GOING_RIGHT
+                self.setState(GOING_RIGHT)
+
                 self.movePosition((self.moveSpeed, 0))
-            elif self.mainPlayerDir == "middle": # if main Player is neither left nor right, remain steady
+
+            elif self.mainPlayerDir == "middle":
+
+                self.state = STEADY
+
                 self.movePosition((0, 0))
+    def getFrame (self):
+        if self.state == STEADY:
+            return super().getFrame()
+        else:
+            frame = self.peekAnimationFrame()
+            if frame == False:
+                self.state = STEADY
+                return super().getFrame()
+            else:
+                return (self._position[0], self._position[1], frame)
    
-  
+
 
 class Enemy03(BasePlayer, AnimationFrame):
     life = 1
