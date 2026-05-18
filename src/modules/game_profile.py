@@ -1,7 +1,8 @@
-from utils import sleep, goto_xy
-from screen import Screen
-from player import AirPlane
 from pynput import keyboard
+
+from src.core.screen import Screen
+from src.components.player import AirPlane
+
 class GameProfile:
     screen: Screen
     mainPlayer: AirPlane

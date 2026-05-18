@@ -25,8 +25,28 @@ class Element(ABC):
         X_COORDINATE = 0
         Y_COORDINATE = 1
         frame = self.getFrame()
+        if (not frame):
+            return
         screen.drawPixelsAt(frame[PIXELS], frame[X_COORDINATE], frame[Y_COORDINATE] )
     
     @abstractmethod
     def nextFrame(self, screen):
         pass
+
+    def getCoveredCoords(self):
+        frame = self.getFrame()
+        if (not frame): 
+            return
+        x, y, pixels = frame
+        coords = set[tuple[int, int]]()
+        for ry, row in enumerate(pixels):
+            for rx, ch in enumerate(row):
+                if ch != ' ' :
+                    coords.add((x + rx, y + ry))
+        return coords
+    
+    def isColliding(self, refCoords: set[tuple[int, int]]):
+        coords = self.getCoveredCoords()
+        intersection = coords.intersection(refCoords)
+        return intersection.__len__() > 0
+        

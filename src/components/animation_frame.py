@@ -8,7 +8,7 @@ class AnimationFrame:
     def setState(self, state: int):
         self.__stateIndex = state
         self.__frameIndex = 0
-    def getAnimationFrame(self):
+    def getAnimationFrame(self): 
         if (self.__animations.__len__() <= self.__stateIndex ):
             return False
         anime = self.__animations[self.__stateIndex]
@@ -17,6 +17,15 @@ class AnimationFrame:
         frame = self.__animations[self.__stateIndex][self.__frameIndex]
         self.__frameIndex += 1
         return frame
+
+    def peekAnimationFrame(self):
+        """Return current animation frame without advancing the frame index."""
+        if (self.__animations.__len__() <= self.__stateIndex ):
+            return False
+        anime = self.__animations[self.__stateIndex]
+        if (anime.__len__() <= self.__frameIndex):
+            return False
+        return self.__animations[self.__stateIndex][self.__frameIndex]
     
     def loadAnimation(self, path:str):
         def trimEndLine(line: str):
