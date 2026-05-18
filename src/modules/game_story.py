@@ -16,6 +16,4 @@ class GameStory:
         self.mainPlayer.first_name = name
         (width, height) = self.screen.getDimension()
         self.mainPlayer.setPosition((int(width / 2), height - 8))
-    def loadEnemies(self):
-        self.waves.loadEnemyPos(5)
-    
+

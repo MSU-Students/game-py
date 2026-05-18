@@ -5,9 +5,12 @@ from src.core.screen import Screen
 from src.components.enemy_player import EnemyPlayer
 from src.components.player import AirPlane, BasePlayer
 import src.modules.game_levels as game_levels
+from src.modules.game_levels import GameLevels
 from src.components.waves import Waves
+from ..utils import TimeClass
 
 class GameNavigation(ABC):
+    timeClass = TimeClass()
     screen: Screen
     mainPlayer: AirPlane
     enemies: list[EnemyPlayer]
@@ -15,7 +18,9 @@ class GameNavigation(ABC):
     waves: Waves
     paused: bool
     pauseMessage: str
+    gameLevels: GameLevels
     def __init__(self):
+        self.allowDisplayNextWave: bool = False
         self.paused = False
         self.pauseMessage = ''
     def welcomeScreen(self):
@@ -107,10 +112,23 @@ class GameNavigation(ABC):
     def afterNextFrame(self):
         pass
     
+    def displayNextWave(self): # After all enemies are unalived, display the next wave.
+        self.timeClass.timeCheck()
+        if len(self.enemies) == 0 and self.allowDisplayNextWave == False:
+            self.allowDisplayNextWave = True
+        if self.allowDisplayNextWave == True:
+            self.timeClass.startTimer(3.0)
+            self.timeClass.timerFinished()
+            if self.timeClass.timerFinished() != True:
+                self.screen.drawStringAt(32, 15, f"Wave Number: {self.waves.currentWave}")
+            else:
+                self.allowDisplayNextWave = False
+
     def startGame(self):
         while self.listener.running:     
             self.screen.clearScreen()
             self.screen.drawFrame()
+
             if self.paused:
                 self.screen.drawStringAt(32, 17, 'PAUSED - Press P')
                 if (self.pauseMessage != ''):
@@ -123,10 +141,16 @@ class GameNavigation(ABC):
                     player.nextFrame(self.screen)
                     
                 self.afterNextFrame()
-            
+
+            if (self.waves.waveChanged == True): # After a wave is complete, configure another wave of enemies.
+                if (self.timeClass.timerFinished() == True): # References of self.timeClass methods are in the displayNextWave().
+                    self.gameLevels.spawnGameBasedOnDiff(self)       
+
             self.displayLife()
             self.displayDifficulty(1)
+            self.displayNextWave()
             self.screen.printScreen()
+            self.waves.nextWave()
             sleep(0.1)
                 
 
