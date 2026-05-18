@@ -68,13 +68,13 @@ class GameNavigation(ABC):
             
         # /////////////////////////////////////////////////////////////////////////////
         if difficultyInput == '1':
-            game_levels.currentDifficulty = game_levels.EASY
+            self.gameLevels.currentDifficulty = game_levels.EASY
             difficultyString = 'EASY'
         elif difficultyInput == '2':
-            game_levels.currentDifficulty = game_levels.MODERATE
+            self.gameLevels.currentDifficulty = game_levels.MODERATE
             difficultyString = 'MODERATE'
         elif difficultyInput == '3':
-            game_levels.currentDifficulty = game_levels.HARD
+            self.gameLevels.currentDifficulty = game_levels.HARD
             difficultyString = 'HARD'
         # /////////////////////////////////////////////////////////////////////////////
 

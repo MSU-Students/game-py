@@ -6,7 +6,7 @@ from pynput import keyboard
 from src.components.waves import Waves
 
 EASY, MODERATE, HARD = 1, 2, 3
-currentDifficulty = EASY # Default difficulty is easy, will be changed once the user inputs other difficulty
+
 # Point System and Game Mechanics
 class GameLevels:
     screen: Screen
@@ -14,21 +14,22 @@ class GameLevels:
     enemies: list[EnemyPlayer]
     listener: keyboard.Listener
     waves: Waves
-
+    currentDifficulty = EASY # Default difficulty is easy, will be changed once the user inputs other difficulty
+    
     def setupGame(self): # Initial only.
-        if (currentDifficulty == EASY):
+        if (self.currentDifficulty == EASY):
             self.mainPlayer.setRemainingLife(10)
-        elif (currentDifficulty == MODERATE):
+        elif (self.currentDifficulty == MODERATE):
             self.mainPlayer.setRemainingLife(15)
-        elif (currentDifficulty == HARD):
+        elif (self.currentDifficulty == HARD):
             self.mainPlayer.setRemainingLife(20)
     
     def spawnGameBasedOnDiff(self): # Initial and Post-initial.
-        if (currentDifficulty == EASY):
+        if (self.currentDifficulty == EASY):
             self.waves.waveSpawnEnemiesOnEasy()
-        elif (currentDifficulty == MODERATE):
+        elif (self.currentDifficulty == MODERATE):
             self.waves.waveSpawnEnemiesOnModerate()
-        elif (currentDifficulty == HARD):
+        elif (self.currentDifficulty == HARD):
             self.waves.waveSpawnEnemiesOnHard()
     
     def checkCollisions(self):
