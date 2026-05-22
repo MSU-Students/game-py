@@ -45,7 +45,6 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
             return self.enemies[self.__index - 2]
         else:
             raise StopIteration #step 4
-<<<<<<< HEAD:game.py
     def onPress(self, key):
          try:
 
@@ -73,40 +72,6 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
 
          except:
              print('Something went wrong')
-=======
-    
-    def onPress(self, key:keyboard.KeyCode):
-        try:
-            if hasattr(key, 'char') and key.char is not None and key.char.lower() == 'p':
-                self.paused = not self.paused
-            if (self.paused): 
-                return 
-            if key == keyboard.Key.up:
-                self.mainPlayer.goUp()
-            elif key == keyboard.Key.down:
-                self.mainPlayer.goDown()
-            elif key == keyboard.Key.right:
-                self.mainPlayer.glideRight()
-            elif key == keyboard.Key.left:
-                self.mainPlayer.glideLeft()
-            elif key == keyboard.Key.space:
-                self.mainPlayer.fire()
-            elif key == keyboard.Key.esc:
-                self.listener.stop()
-        except Exception as e:
-            self.pauseMessage = f'Something went wrong: {e}'
-            self.paused = True
-
-    def beforeNextFrame(self):
-        self.checkCollisions()
-    
-    def afterNextFrame(self):
-        self.eliminateDeads()
-        for enemy in self.waves.enemies:
-            if (hasattr(enemy, 'moveEnemy')):
-                enemy.moveEnemy(self.mainPlayer._position[0])
-    
->>>>>>> f434f7f31b28d1da6f5fa8b8e735e787aff8f643:src/core/game.py
     def play(self):
         self.listener.start()
         
@@ -114,19 +79,10 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
         userName = self.profileInput()
         self.chooseDifficulty()
         
-<<<<<<< HEAD:game.py
         self.loadMainPlayer(userName)
         self.mainPlayer._position = (10, 10)
         self.enemies[0].setPosition((5, 1))
         
-=======
-        self.setupGame()
-        self.spawnGameBasedOnDiff()
-        self.loadMainPlayer(userName)
-        
-        self.loadingScreen() 
-        
->>>>>>> f434f7f31b28d1da6f5fa8b8e735e787aff8f643:src/core/game.py
         self.startGame()
 
         self.exitGame()
