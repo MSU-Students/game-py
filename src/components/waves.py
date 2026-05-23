@@ -15,6 +15,7 @@ class Waves:
         self.distancer: int # This is the distance between enemies once the game started
         self.count: int
         (self.width, self.height) = self.screen.getDimension()
+        self.killCount: int = 0 # This will count the kills of enemies
 
     # Creates enemies (that are not bosses), pass it to some integer, it will instance that number of enemies
     def instantiateEnemies(self, enemyNumberGetter: int):
@@ -73,6 +74,10 @@ class Waves:
                 if enemy > 19: # Line of enemies number 3
                     self.count = enemy - 19
                     self.enemies[enemy].setPosition((int(self.distancer * self.count) - 2, 10))    
+
+    def incrementKillCount(self):
+        
+        pass
 
     def setEnemiesStatus(self, life: int, moveSpeed: int):
         for enemy in range(len(self.enemies)):

@@ -34,6 +34,9 @@ class GameNavigation(ABC):
 
     def displayLife(self): #This will display the Health of the player while playing
         self.screen.drawStringAt(65 , 32, f'life: {str(self.mainPlayer.life)}')
+    
+    def displayKillCount(self): #This will display the killCount while playing
+        self.screen.drawStringAt(65 , 30, f'killCount: {str(self.waves.killCount)}')
 
     def profileInput(self):
         self.resetScreen()
@@ -147,6 +150,7 @@ class GameNavigation(ABC):
                     self.gameLevels.spawnGameBasedOnDiff(self)       
 
             self.displayLife()
+            self.displayKillCount()
             self.displayDifficulty(1)
             self.displayNextWave()
             self.screen.printScreen()
