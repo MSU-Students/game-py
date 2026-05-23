@@ -48,6 +48,11 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
     
     def onPress(self, key:keyboard.KeyCode):
         try:
+             if hasattr(key, 'char') and key.char is not None and key.char.lower() == 's':
+                # Save game when 'S' is pressed
+                self.saveCurrentGame()
+                return
+                 
             if hasattr(key, 'char') and key.char is not None and key.char.lower() == 'p':
                 self.paused = not self.paused
             if (self.paused): 
@@ -81,12 +86,18 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
         self.listener.start()
         
         self.welcomeScreen()
-        userName = self.profileInput()
-        self.chooseDifficulty()
+         saved_name = self.mainMenu()
         
-        self.setupGame()
-        self.spawnGameBasedOnDiff()
-        self.loadMainPlayer(userName)
+        if saved_name is None:
+            userName = self.profileInput()
+            self.chooseDifficulty()
+            self.setupGame()
+            self.spawnGameBasedOnDiff()
+            self.loadMainPlayer(userName)
+        else:
+            self.setupGame()
+            self.spawnGameBasedOnDiff()
+            self.loadMainPlayer(saved_name)
         
         self.loadingScreen() 
         
