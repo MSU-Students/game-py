@@ -48,7 +48,7 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
     
     def onPress(self, key:keyboard.KeyCode):
         try:
-             if hasattr(key, 'char') and key.char is not None and key.char.lower() == 's':
+            if hasattr(key, 'char') and key.char is not None and key.char.lower() == 's':
                 self.saveCurrentGame()
                 return
                  
