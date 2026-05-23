@@ -85,7 +85,7 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
         self.listener.start()
         
         self.welcomeScreen()
-         saved_name = self.mainMenu()
+        saved_name = self.mainMenu()
         
         if saved_name is None:
             userName = self.profileInput()
