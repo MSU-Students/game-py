@@ -5,6 +5,7 @@ from src.utils import goto_xy, TimeClass
 from src.components.element import Element
 from src.components.animation_frame import AnimationFrame
 from src.components.amo import Amo
+from src.components.explosion import Explosion
 class BasePlayer(Element):
     # Constructor
     def __init__(self, fName = '', lName = ''):
@@ -40,22 +41,50 @@ class BasePlayer(Element):
         self.amos.append(Amo((self._position[0] + 2, self._position[1] - 1)))
     
     def drawElement(self, screen):
-        super().drawElement(screen)
-        for amo in self.amos:
-            amo.drawElement(screen)
 
-    
+      super().drawElement(screen)
+
+      for amo in self.amos:
+          amo.drawElement(screen)
+
+      if hasattr(self, 'explosions'):
+
+        for explosion in self.explosions:
+            explosion.drawElement(screen)
+
     def nextFrame(self, screen: Screen):
+
         for amo in self.amos:
             amo.nextFrame(screen, 0, -1)
+
+    if hasattr(self, 'explosions'):
+
+        for explosion in self.explosions:
+
+            explosion.nextFrame()
+
+            if not explosion.alive:
+                self.explosions.remove(explosion)
 
     def display(self):
         goto_xy(self._position)
         print(self._avatar, end='')
 
-    def incrementKill(self, enemy: Self):
-        self.kill = self.kill + 1
-        enemy.decrementLife()
+     def incrementKill(self, enemy: Self):
+
+         self.kill = self.kill + 1
+
+         boom = Explosion()
+
+         boom.setPosition(enemy._position)
+
+         if not hasattr(self, 'explosions'):
+             self.explosions = []
+
+         self.explosions.append(boom)
+
+         enemy.decrementLife()
+
         
     def decrementLife(self):
         self.life = self.life - 1
