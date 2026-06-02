@@ -41,4 +41,4 @@ class GameLevels:
         for enemy in self.enemies:
             if (not enemy.is_alive()):
                 self.enemies.remove(enemy)
-                self.waves.killCount += 1
+                self.waves.incrementKillCount()

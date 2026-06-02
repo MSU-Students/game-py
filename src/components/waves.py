@@ -77,7 +77,7 @@ class Waves:
 
     def incrementKillCount(self):
         
-        pass
+        self.killCount += 1
 
     def setEnemiesStatus(self, life: int, moveSpeed: int):
         for enemy in range(len(self.enemies)):
