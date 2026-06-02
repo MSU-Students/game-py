@@ -38,7 +38,7 @@ class GameNavigation(ABC):
         self.screen.drawStringAt(65 , 32, f'life: {str(self.mainPlayer.life)}')
     
     def displayKillCount(self): #This will display the killCount while playing
-        self.screen.drawStringAt(65 , 30, kills: {str(self.waves.killCount)}')
+        self.screen.drawStringAt(65 , 30, f'kills: {str(self.waves.killCount)}')
 
     def profileInput(self):
         self.resetScreen()
