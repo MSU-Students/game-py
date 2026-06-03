@@ -17,6 +17,7 @@ class GameNavigation(ABC):
     listener: keyboard.Listener
     waves: Waves
     paused: bool
+    gameOver: bool
     pauseMessage: str
     gameLevels: GameLevels
     save_folder = "./save_data"
@@ -24,6 +25,7 @@ class GameNavigation(ABC):
     def __init__(self):
         self.allowDisplayNextWave: bool = False
         self.paused = False
+        self.gameOver = False
         self.pauseMessage = ''
     def welcomeScreen(self):
         self.screen.drawStringAt(31, 17, 'Welcome to GAME PY')
@@ -156,13 +158,24 @@ class GameNavigation(ABC):
                 self.screen.drawStringAt(32, 15, f"Wave Number: {self.waves.currentWave}")
             else:
                 self.allowDisplayNextWave = False
-
+             
+    def checkIfBorderHit(self):
+        x, y = self.mainPlayer.getPosition()
+        width, height = self.screen.getDimension()
+        self.gameOver = x <= 1 or x >= width or y <= 1 or y >= height
+        
+    def resetMainPlayer(self):
+        width, height = self.screen.getDimension()
+        self.mainPlayer.setPosition((int(width / 2), height - 8))
+        self.gameOver = False
     def startGame(self):
         while self.listener.running:     
             self.screen.clearScreen()
             self.screen.drawFrame()
-
-            if self.paused:
+            if self.gameOver:
+                self.screen.drawStringAt(30, 10, 'GAME OVER')
+                self.screen.drawStringAt(23, 12, 'Press R to Try Again')
+            elif self.paused:
                 self.screen.drawStringAt(32, 17, 'PAUSED - Press P')
                 if (self.pauseMessage != ''):
                     self.screen.drawStringAt(32, 19, f'Something went wrong: {self.pauseMessage}')

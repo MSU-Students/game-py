@@ -51,7 +51,8 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
             if hasattr(key, 'char') and key.char is not None and key.char.lower() == 's':
                 self.saveCurrentGame()
                 return
-                 
+            elif hasattr(key, 'char') and key.char == 'r' and self.gameOver:
+                self.resetMainPlayer()
             if hasattr(key, 'char') and key.char is not None and key.char.lower() == 'p':
                 self.paused = not self.paused
             if (self.paused): 
@@ -71,9 +72,13 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
         except Exception as e:
             self.pauseMessage = f'Something went wrong: {e}'
             self.paused = True
-
+    
+    
+    
     def beforeNextFrame(self):
         self.checkCollisions()
+        self.checkIfBorderHit()
+        
     
     def afterNextFrame(self):
         self.eliminateDeads()
