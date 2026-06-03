@@ -45,43 +45,61 @@ class Game(GameNavigation, GameStory, GameAnimation, GameLevels, GameProfile):
             return self.enemies[self.__index - 2]
         else:
             raise StopIteration #step 4
-    def onPress(self, key):
-         try:
-
-             if key == keyboard.Key.up:
-                 self.mainPlayer.goUp()
-
-             elif key == keyboard.Key.down:
-                 self.mainPlayer.goDown()
-
-             elif key == keyboard.Key.right:
-              self.mainPlayer.glideRight()
-
-             elif key == keyboard.Key.left:
-                 self.mainPlayer.glideLeft()
-
-        # TRY AGAIN
-             elif hasattr(key, 'char') and key.char == 'r':
+    
+    def onPress(self, key:keyboard.KeyCode):
+        try:
+            if hasattr(key, 'char') and key.char is not None and key.char.lower() == 's':
+                self.saveCurrentGame()
+                return
+            elif hasattr(key, 'char') and key.char == 'r':
                  self.mainPlayer._position = (10, 10)
+            if hasattr(key, 'char') and key.char is not None and key.char.lower() == 'p':
+                self.paused = not self.paused
+            if (self.paused): 
+                return 
+            if key == keyboard.Key.up:
+                self.mainPlayer.goUp()
+            elif key == keyboard.Key.down:
+                self.mainPlayer.goDown()
+            elif key == keyboard.Key.right:
+                self.mainPlayer.glideRight()
+            elif key == keyboard.Key.left:
+                self.mainPlayer.glideLeft()
+            elif key == keyboard.Key.space:
+                self.mainPlayer.fire()
+            elif key == keyboard.Key.esc:
+                self.listener.stop()
+        except Exception as e:
+            self.pauseMessage = f'Something went wrong: {e}'
+            self.paused = True
 
-             elif key == keyboard.Key.space:
-              self.mainPlayer.fire()
-
-             elif key == keyboard.Key.esc:
-                 self.listener.stop()
-
-         except:
-             print('Something went wrong')
+    def beforeNextFrame(self):
+        self.checkCollisions()
+    
+    def afterNextFrame(self):
+        self.eliminateDeads()
+        for enemy in self.waves.enemies:
+            if (hasattr(enemy, 'moveEnemy')):
+                enemy.moveEnemy(self.mainPlayer._position[0])
+    
     def play(self):
         self.listener.start()
         
         self.welcomeScreen()
-        userName = self.profileInput()
-        self.chooseDifficulty()
+        saved_name = self.mainMenu()
         
-        self.loadMainPlayer(userName)
-        self.mainPlayer._position = (10, 10)
-        self.enemies[0].setPosition((5, 1))
+        if saved_name is None:
+            userName = self.profileInput()
+            self.chooseDifficulty()
+            self.setupGame()
+            self.spawnGameBasedOnDiff()
+            self.loadMainPlayer(userName)
+        else:
+            self.setupGame()
+            self.spawnGameBasedOnDiff()
+            self.loadMainPlayer(saved_name)
+        
+        self.loadingScreen() 
         
         self.startGame()
 
